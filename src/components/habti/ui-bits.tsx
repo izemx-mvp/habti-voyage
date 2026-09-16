@@ -163,7 +163,7 @@ export function RowMenu({ actions }: { actions: { label: string; onSelect: () =>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {actions.map((a) => (
-          <DropdownMenuItem key={a.label} variant={a.danger ? "destructive" : "default"}
+          <DropdownMenuItem key={a.label} className={a.danger ? "text-destructive" : undefined}
             onClick={(e) => { e.stopPropagation(); a.onSelect(); }}>
             {a.label}
           </DropdownMenuItem>

@@ -1,12 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { HabtiApp } from "@/components/habti-app";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+
 export const Route = createFileRoute("/")({
+  beforeLoad: () => {
+    throw redirect({ to: "/dashboard" });
+  },
   head: () => ({ meta: [
-    { title: "Habti Voyage — Operations & Experience Platform" },
-    { name: "description", content: "Smart commercial and operational management for Habti Voyage's travel, events and corporate experiences in Morocco." },
-    { property: "og:title", content: "Habti Voyage — Operations Platform" },
-    { property: "og:description", content: "Manage prospects, bookings, experiences, finance and operations from one intelligent workspace." },
+    { title: "Habti Voyage — Plateforme de gestion voyages & événements" },
+    { name: "description", content: "Pilotez prospects, réservations, devis, paiements et opérations Habti Voyage au Maroc." },
+    { property: "og:title", content: "Habti Voyage — Plateforme de gestion" },
+    { property: "og:description", content: "Voyages, activités et événements d'entreprise au Maroc, gérés dans un seul espace intelligent." },
     { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary_large_image" },
-  ]}), component: HabtiApp,
+    { name: "twitter:card", content: "summary" },
+  ] }),
 });

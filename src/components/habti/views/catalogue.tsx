@@ -189,7 +189,7 @@ export function CatalogueView({ evenementsSeuls = false }: { evenementsSeuls?: b
   );
 }
 
-function PrestationFields({ prestation }: { prestation?: Prestation }) {
+function PrestationFields({ prestation }: { prestation?: Prestation | undefined }) {
   return (
     <>
       <Field label="Nom de la prestation" full><TextInput name="nom" required defaultValue={prestation?.nom} placeholder="Excursion désert Merzouga" /></Field>

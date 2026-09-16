@@ -10,12 +10,114 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentProspectionRouteImport } from './routes/agent-prospection'
+import { Route as CatalogueRouteImport } from './routes/catalogue'
+import { Route as ClientsRouteImport } from './routes/clients'
+import { Route as ConseillerIaRouteImport } from './routes/conseiller-ia'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DevisRouteImport } from './routes/devis'
+import { Route as EmployesRouteImport } from './routes/employes'
+import { Route as EvenementsRouteImport } from './routes/evenements'
+import { Route as FacturesRouteImport } from './routes/factures'
+import { Route as MissionsRouteImport } from './routes/missions'
+import { Route as PaiementsRouteImport } from './routes/paiements'
+import { Route as ParametresRouteImport } from './routes/parametres'
+import { Route as PlanningRouteImport } from './routes/planning'
+import { Route as ProspectsRouteImport } from './routes/prospects'
+import { Route as RapportsRouteImport } from './routes/rapports'
+import { Route as ReservationsRouteImport } from './routes/reservations'
+import { Route as ServiceClientRouteImport } from './routes/service-client'
 import { Route as AiThreadIdRouteImport } from './routes/ai.$threadId'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentProspectionRoute = AgentProspectionRouteImport.update({
+  id: '/agent-prospection',
+  path: '/agent-prospection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogueRoute = CatalogueRouteImport.update({
+  id: '/catalogue',
+  path: '/catalogue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClientsRoute = ClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConseillerIaRoute = ConseillerIaRouteImport.update({
+  id: '/conseiller-ia',
+  path: '/conseiller-ia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevisRoute = DevisRouteImport.update({
+  id: '/devis',
+  path: '/devis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployesRoute = EmployesRouteImport.update({
+  id: '/employes',
+  path: '/employes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvenementsRoute = EvenementsRouteImport.update({
+  id: '/evenements',
+  path: '/evenements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FacturesRoute = FacturesRouteImport.update({
+  id: '/factures',
+  path: '/factures',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MissionsRoute = MissionsRouteImport.update({
+  id: '/missions',
+  path: '/missions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaiementsRoute = PaiementsRouteImport.update({
+  id: '/paiements',
+  path: '/paiements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParametresRoute = ParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanningRoute = PlanningRouteImport.update({
+  id: '/planning',
+  path: '/planning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProspectsRoute = ProspectsRouteImport.update({
+  id: '/prospects',
+  path: '/prospects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RapportsRoute = RapportsRouteImport.update({
+  id: '/rapports',
+  path: '/rapports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservationsRoute = ReservationsRouteImport.update({
+  id: '/reservations',
+  path: '/reservations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiceClientRoute = ServiceClientRouteImport.update({
+  id: '/service-client',
+  path: '/service-client',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiThreadIdRoute = AiThreadIdRouteImport.update({
@@ -31,30 +133,159 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agent-prospection': typeof AgentProspectionRoute
+  '/catalogue': typeof CatalogueRoute
+  '/clients': typeof ClientsRoute
+  '/conseiller-ia': typeof ConseillerIaRoute
+  '/dashboard': typeof DashboardRoute
+  '/devis': typeof DevisRoute
+  '/employes': typeof EmployesRoute
+  '/evenements': typeof EvenementsRoute
+  '/factures': typeof FacturesRoute
+  '/missions': typeof MissionsRoute
+  '/paiements': typeof PaiementsRoute
+  '/parametres': typeof ParametresRoute
+  '/planning': typeof PlanningRoute
+  '/prospects': typeof ProspectsRoute
+  '/rapports': typeof RapportsRoute
+  '/reservations': typeof ReservationsRoute
+  '/service-client': typeof ServiceClientRoute
   '/ai/$threadId': typeof AiThreadIdRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agent-prospection': typeof AgentProspectionRoute
+  '/catalogue': typeof CatalogueRoute
+  '/clients': typeof ClientsRoute
+  '/conseiller-ia': typeof ConseillerIaRoute
+  '/dashboard': typeof DashboardRoute
+  '/devis': typeof DevisRoute
+  '/employes': typeof EmployesRoute
+  '/evenements': typeof EvenementsRoute
+  '/factures': typeof FacturesRoute
+  '/missions': typeof MissionsRoute
+  '/paiements': typeof PaiementsRoute
+  '/parametres': typeof ParametresRoute
+  '/planning': typeof PlanningRoute
+  '/prospects': typeof ProspectsRoute
+  '/rapports': typeof RapportsRoute
+  '/reservations': typeof ReservationsRoute
+  '/service-client': typeof ServiceClientRoute
   '/ai/$threadId': typeof AiThreadIdRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agent-prospection': typeof AgentProspectionRoute
+  '/catalogue': typeof CatalogueRoute
+  '/clients': typeof ClientsRoute
+  '/conseiller-ia': typeof ConseillerIaRoute
+  '/dashboard': typeof DashboardRoute
+  '/devis': typeof DevisRoute
+  '/employes': typeof EmployesRoute
+  '/evenements': typeof EvenementsRoute
+  '/factures': typeof FacturesRoute
+  '/missions': typeof MissionsRoute
+  '/paiements': typeof PaiementsRoute
+  '/parametres': typeof ParametresRoute
+  '/planning': typeof PlanningRoute
+  '/prospects': typeof ProspectsRoute
+  '/rapports': typeof RapportsRoute
+  '/reservations': typeof ReservationsRoute
+  '/service-client': typeof ServiceClientRoute
   '/ai/$threadId': typeof AiThreadIdRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ai/$threadId' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/agent-prospection'
+    | '/catalogue'
+    | '/clients'
+    | '/conseiller-ia'
+    | '/dashboard'
+    | '/devis'
+    | '/employes'
+    | '/evenements'
+    | '/factures'
+    | '/missions'
+    | '/paiements'
+    | '/parametres'
+    | '/planning'
+    | '/prospects'
+    | '/rapports'
+    | '/reservations'
+    | '/service-client'
+    | '/ai/$threadId'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ai/$threadId' | '/api/chat'
-  id: '__root__' | '/' | '/ai/$threadId' | '/api/chat'
+  to:
+    | '/'
+    | '/agent-prospection'
+    | '/catalogue'
+    | '/clients'
+    | '/conseiller-ia'
+    | '/dashboard'
+    | '/devis'
+    | '/employes'
+    | '/evenements'
+    | '/factures'
+    | '/missions'
+    | '/paiements'
+    | '/parametres'
+    | '/planning'
+    | '/prospects'
+    | '/rapports'
+    | '/reservations'
+    | '/service-client'
+    | '/ai/$threadId'
+    | '/api/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/agent-prospection'
+    | '/catalogue'
+    | '/clients'
+    | '/conseiller-ia'
+    | '/dashboard'
+    | '/devis'
+    | '/employes'
+    | '/evenements'
+    | '/factures'
+    | '/missions'
+    | '/paiements'
+    | '/parametres'
+    | '/planning'
+    | '/prospects'
+    | '/rapports'
+    | '/reservations'
+    | '/service-client'
+    | '/ai/$threadId'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentProspectionRoute: typeof AgentProspectionRoute
+  CatalogueRoute: typeof CatalogueRoute
+  ClientsRoute: typeof ClientsRoute
+  ConseillerIaRoute: typeof ConseillerIaRoute
+  DashboardRoute: typeof DashboardRoute
+  DevisRoute: typeof DevisRoute
+  EmployesRoute: typeof EmployesRoute
+  EvenementsRoute: typeof EvenementsRoute
+  FacturesRoute: typeof FacturesRoute
+  MissionsRoute: typeof MissionsRoute
+  PaiementsRoute: typeof PaiementsRoute
+  ParametresRoute: typeof ParametresRoute
+  PlanningRoute: typeof PlanningRoute
+  ProspectsRoute: typeof ProspectsRoute
+  RapportsRoute: typeof RapportsRoute
+  ReservationsRoute: typeof ReservationsRoute
+  ServiceClientRoute: typeof ServiceClientRoute
   AiThreadIdRoute: typeof AiThreadIdRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -66,6 +297,125 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent-prospection': {
+      id: '/agent-prospection'
+      path: '/agent-prospection'
+      fullPath: '/agent-prospection'
+      preLoaderRoute: typeof AgentProspectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogue': {
+      id: '/catalogue'
+      path: '/catalogue'
+      fullPath: '/catalogue'
+      preLoaderRoute: typeof CatalogueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clients': {
+      id: '/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof ClientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conseiller-ia': {
+      id: '/conseiller-ia'
+      path: '/conseiller-ia'
+      fullPath: '/conseiller-ia'
+      preLoaderRoute: typeof ConseillerIaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devis': {
+      id: '/devis'
+      path: '/devis'
+      fullPath: '/devis'
+      preLoaderRoute: typeof DevisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employes': {
+      id: '/employes'
+      path: '/employes'
+      fullPath: '/employes'
+      preLoaderRoute: typeof EmployesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evenements': {
+      id: '/evenements'
+      path: '/evenements'
+      fullPath: '/evenements'
+      preLoaderRoute: typeof EvenementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/factures': {
+      id: '/factures'
+      path: '/factures'
+      fullPath: '/factures'
+      preLoaderRoute: typeof FacturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/missions': {
+      id: '/missions'
+      path: '/missions'
+      fullPath: '/missions'
+      preLoaderRoute: typeof MissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paiements': {
+      id: '/paiements'
+      path: '/paiements'
+      fullPath: '/paiements'
+      preLoaderRoute: typeof PaiementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parametres': {
+      id: '/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof ParametresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planning': {
+      id: '/planning'
+      path: '/planning'
+      fullPath: '/planning'
+      preLoaderRoute: typeof PlanningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prospects': {
+      id: '/prospects'
+      path: '/prospects'
+      fullPath: '/prospects'
+      preLoaderRoute: typeof ProspectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rapports': {
+      id: '/rapports'
+      path: '/rapports'
+      fullPath: '/rapports'
+      preLoaderRoute: typeof RapportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservations': {
+      id: '/reservations'
+      path: '/reservations'
+      fullPath: '/reservations'
+      preLoaderRoute: typeof ReservationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/service-client': {
+      id: '/service-client'
+      path: '/service-client'
+      fullPath: '/service-client'
+      preLoaderRoute: typeof ServiceClientRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai/$threadId': {
@@ -87,6 +437,23 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentProspectionRoute: AgentProspectionRoute,
+  CatalogueRoute: CatalogueRoute,
+  ClientsRoute: ClientsRoute,
+  ConseillerIaRoute: ConseillerIaRoute,
+  DashboardRoute: DashboardRoute,
+  DevisRoute: DevisRoute,
+  EmployesRoute: EmployesRoute,
+  EvenementsRoute: EvenementsRoute,
+  FacturesRoute: FacturesRoute,
+  MissionsRoute: MissionsRoute,
+  PaiementsRoute: PaiementsRoute,
+  ParametresRoute: ParametresRoute,
+  PlanningRoute: PlanningRoute,
+  ProspectsRoute: ProspectsRoute,
+  RapportsRoute: RapportsRoute,
+  ReservationsRoute: ReservationsRoute,
+  ServiceClientRoute: ServiceClientRoute,
   AiThreadIdRoute: AiThreadIdRoute,
   ApiChatRoute: ApiChatRoute,
 }

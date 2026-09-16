@@ -134,7 +134,7 @@ export function MissionsView() {
   );
 }
 
-function MissionFields({ mission, employes, clients, prestations }: { mission?: Mission; employes: string[]; clients: string[]; prestations: string[] }) {
+function MissionFields({ mission, employes, clients, prestations }: { mission?: Mission | undefined; employes: string[]; clients: string[]; prestations: string[] }) {
   return (
     <>
       <Field label="Titre de la mission" full><TextInput name="titre" required defaultValue={mission?.titre} placeholder="Installation campement Agafay" /></Field>
