@@ -90,7 +90,7 @@ export function MissionsView() {
               <div className="checklist">
                 {active.checklist.map((c) => (
                   <label key={c.id}>
-                    <input type="checkbox" checked={c.fait} onChange={() => toggleChecklist(active.id, c.id)} />
+                    <input type="checkbox" checked={c.fait} onChange={() => { toggleChecklist(active.id, c.id); notify(c.fait ? "Étape rouverte." : "Étape validée."); }} />
                     <span className={c.fait ? "done" : ""}>{c.label}</span>
                   </label>
                 ))}
