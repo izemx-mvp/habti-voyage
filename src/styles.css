@@ -363,3 +363,8 @@ textarea.habti-input{height:auto;padding:9px 11px;min-height:84px;line-height:1.
 .agenda-next button{text-align:left;font-size:11px;border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--card);cursor:pointer}
 .agenda-next button:hover{border-color:var(--primary)}
 .calendar-toolbar strong{font-size:12.5px;margin-left:6px}
+.habti-shell .topbar{padding:0 20px;gap:10px;height:auto;min-height:70px;flex-wrap:nowrap}
+.habti-shell .topbar .global-search{width:clamp(160px,22vw,300px)}
+.habti-shell .topbar .profile-chip span{white-space:nowrap}
+.habti-shell .topbar .quick-button{white-space:nowrap}
+@media (max-width:1100px){.habti-shell .topbar .profile-chip>div{display:none}}
