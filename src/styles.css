@@ -349,3 +349,17 @@ textarea.habti-input{height:auto;padding:9px 11px;min-height:84px;line-height:1.
 .habti-shell .topbar .global-search{flex:none}
 .thread-msg.client,.thread-msg.prospect{align-self:flex-start;background:var(--muted);color:var(--foreground);border-radius:13px;border-bottom-left-radius:4px}
 .thread-msg.ia,.thread-msg.habti{align-self:flex-end;background:var(--primary);color:var(--primary-foreground);border-radius:13px;border-bottom-right-radius:4px}
+.calendar-board .booking-block{position:static;width:100%;left:auto;top:auto;text-align:left;font-size:9.5px;padding:8px;margin-bottom:6px;cursor:pointer;border-radius:8px;line-height:1.35}
+.calendar-board .booking-block small{font-size:8.5px;color:var(--muted-foreground);display:block}
+.calendar-board .booking-block.b1{background:color-mix(in oklab,var(--primary) 12%,var(--card));border-left:3px solid var(--primary)}
+.calendar-board .booking-block.b3{background:color-mix(in oklab,var(--brand-blue) 11%,var(--card));border-left:3px solid var(--brand-blue)}
+.calendar-col header{display:flex;align-items:baseline;gap:5px;font-size:10px;color:var(--muted-foreground);margin-bottom:6px}
+.calendar-col header b{font-size:14px;color:var(--foreground)}
+.calendar-col>div{display:flex;flex-direction:column}
+.agenda-row>div{display:flex;flex-direction:column;text-align:left;min-width:0}
+.agenda-row span{font-size:10px;color:var(--muted-foreground)}
+.agenda-row [data-slot=badge]{margin-left:auto}
+.agenda-next b{font-size:12px}
+.agenda-next button{text-align:left;font-size:11px;border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--card);cursor:pointer}
+.agenda-next button:hover{border-color:var(--primary)}
+.calendar-toolbar strong{font-size:12.5px;margin-left:6px}
