@@ -14,7 +14,7 @@ const SEGMENTS = ["Particulier", "Entreprise", "Agence partenaire"] as const;
 export function ClientsView() {
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { nouveau?: string };
-  const { clients, reservations, addClient, updateClient, notify } = useHabti() as ReturnType<typeof useHabti> & { updateClient?: never };
+  const { clients, reservations, addClient, notify } = useHabti();
   const [q, setQ] = useState("");
   const [ville, setVille] = useState("Tous");
   const [segment, setSegment] = useState("Tous");
