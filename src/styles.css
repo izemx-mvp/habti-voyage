@@ -368,3 +368,6 @@ textarea.habti-input{height:auto;padding:9px 11px;min-height:84px;line-height:1.
 .habti-shell .topbar .profile-chip span{white-space:nowrap}
 .habti-shell .topbar .quick-button{white-space:nowrap}
 @media (max-width:1100px){.habti-shell .topbar .profile-chip>div{display:none}}
+.habti-shell .topbar{padding-right:26px}
+.habti-shell .topbar .profile-chip>div{overflow:hidden}
+.habti-shell .topbar .profile-chip b,.habti-shell .topbar .profile-chip span{display:block;line-height:1.25}
