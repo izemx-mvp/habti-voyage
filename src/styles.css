@@ -342,3 +342,8 @@ textarea.habti-input{height:auto;padding:9px 11px;min-height:84px;line-height:1.
 .table-wrap tbody tr{cursor:pointer;transition:.15s}
 .table-wrap tbody tr:hover{background:color-mix(in oklab,var(--primary) 5%,transparent)}
 .table-wrap tbody td:last-child{text-align:right;width:44px}
+.thread-msg.ia,.thread-msg.assistant,.thread-msg.conseiller{align-self:flex-start;background:var(--muted);color:var(--foreground);border-bottom-left-radius:4px}
+.thread-msg.client,.thread-msg.prospect{align-self:flex-end;background:var(--primary);color:var(--primary-foreground);border-bottom-right-radius:4px}
+.thread-msg small{display:block;margin-top:5px;font-size:9px;opacity:.7}
+.habti-shell .topbar>div:first-of-type{flex:1 1 auto;min-width:170px}
+.habti-shell .topbar .global-search{flex:none}
