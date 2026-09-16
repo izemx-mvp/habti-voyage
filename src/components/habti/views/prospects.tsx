@@ -105,6 +105,9 @@ export function ProspectsView() {
     };
     addProspect(nouveau);
     setCreation(false);
+    reset();
+    setTri({ col: "score", asc: false });
+    setSelection(nouveau);
     notify("Prospect créé avec succès.");
   };
 

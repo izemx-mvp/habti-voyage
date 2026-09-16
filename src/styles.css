@@ -371,3 +371,10 @@ textarea.habti-input{height:auto;padding:9px 11px;min-height:84px;line-height:1.
 .habti-shell .topbar{padding-right:26px}
 .habti-shell .topbar .profile-chip>div{overflow:hidden}
 .habti-shell .topbar .profile-chip b,.habti-shell .topbar .profile-chip span{display:block;line-height:1.25}
+@media (max-width: 860px){
+  .habti-shell .topbar{padding-right:14px;gap:10px}
+  .habti-shell .topbar .profile-chip{padding:4px}
+  .habti-shell .topbar .profile-chip>div{display:none}
+  .habti-shell .shell-content{overflow-x:hidden}
+  .habti-shell{overflow-x:hidden}
+}
