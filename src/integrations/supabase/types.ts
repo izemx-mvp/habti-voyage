@@ -14,7 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ai_messages: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json
+          parts: Json
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          parts?: Json
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          parts?: Json
+          role?: string
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "ai_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_threads: {
+        Row: {
+          contact_name: string | null
+          created_at: string
+          id: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          workspace: string
+        }
+        Insert: {
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+          workspace: string
+        }
+        Update: {
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          workspace?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
