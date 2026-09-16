@@ -152,7 +152,7 @@ export function EmployesView() {
   );
 }
 
-function EmployeFields({ employe }: { employe?: Employe }) {
+function EmployeFields({ employe }: { employe?: Employe | undefined }) {
   return (
     <>
       <Field label="Nom complet" full><TextInput name="nom" required defaultValue={employe?.nom} placeholder="Youssef Amrani" /></Field>

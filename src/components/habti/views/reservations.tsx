@@ -175,7 +175,7 @@ export function ReservationsView() {
 }
 
 function ReservationFields({ reservation, clients, prestations, employes }: {
-  reservation?: Reservation; clients: string[]; prestations: string[]; employes: string[];
+  reservation?: Reservation | undefined; clients: string[]; prestations: string[]; employes: string[];
 }) {
   return (
     <>

@@ -56,7 +56,7 @@ export function PlanningView() {
     ? `${MOIS[ancre.getMonth()]} ${ancre.getFullYear()}`
     : vue === "Jour"
       ? ancre.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
-      : `Semaine du ${jours[0].toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}`;
+      : `Semaine du ${jours[0]!.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}`;
 
   const visibles = evenements.filter((e) => jours.some((j) => iso(j) === e.date));
 

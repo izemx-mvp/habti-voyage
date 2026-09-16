@@ -230,7 +230,7 @@ export function ProspectsView() {
   );
 }
 
-function ProspectFields({ prospect }: { prospect?: Prospect }) {
+function ProspectFields({ prospect }: { prospect?: Prospect | undefined }) {
   return (
     <>
       <Field label="Prénom"><TextInput name="prenom" required defaultValue={prospect?.prenom} placeholder="Sofia" /></Field>
