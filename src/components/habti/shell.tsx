@@ -114,7 +114,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
 
       <div className="shell-main">
         <header className="topbar">
-          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" aria-expanded={mobile} onPointerDown={(event) => { event.preventDefault(); event.stopPropagation(); setMobile(true); }}><Menu /></Button>
+          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" aria-expanded={mobile} onClick={() => setMobile(true)}><Menu /></Button>
           <div>
             <h1>{meta.titre}</h1>
             <p>{meta.sous}</p>
@@ -167,8 +167,8 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
       </div>
 
       {mobile && (
-        <div className="mobile-nav-backdrop" onMouseDown={() => setMobile(false)}>
-          <aside className="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation mobile" onMouseDown={(event) => event.stopPropagation()}>
+        <div className="mobile-nav-backdrop" onClick={(event) => { if (event.target === event.currentTarget) setMobile(false); }}>
+          <aside className="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation mobile">
             <div className="sidebar-head">
               <HabtiLogo />
               <Button variant="ghost" size="icon" aria-label="Fermer la navigation" onClick={() => setMobile(false)}><ChevronLeft /></Button>
