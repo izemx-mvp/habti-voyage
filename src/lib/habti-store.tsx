@@ -2,15 +2,15 @@ import { createContext, useContext, useMemo, useState, type ReactNode } from "re
 import { toast } from "sonner";
 import {
   clientsSeed, devisSeed, employesSeed, facturesSeed, missionsSeed, paiementsSeed,
-  prestationsSeed, prospectsSeed, reservationsSeed, ticketsSeed, newId,
+  prestationsSeed, prospectsSeed, reservationsSeed, ticketsSeed, socialPostsSeed, campagnesSeed, faqSeed, knowledgeSeed, newId,
   type Client, type Devis, type Employe, type Facture, type Mission, type Paiement,
-  type Prestation, type Prospect, type Reservation, type Ticket,
+  type Prestation, type Prospect, type Reservation, type Ticket, type SocialPost, type Campagne, type FAQItem, type KnowledgeItem,
 } from "./habti-data";
 
 type Store = {
   prospects: Prospect[]; clients: Client[]; reservations: Reservation[]; devis: Devis[];
   paiements: Paiement[]; factures: Facture[]; missions: Mission[]; employes: Employe[];
-  prestations: Prestation[]; tickets: Ticket[];
+  prestations: Prestation[]; tickets: Ticket[]; socialPosts: SocialPost[]; campagnes: Campagne[]; faq: FAQItem[]; knowledge: KnowledgeItem[];
   addProspect: (p: Prospect) => void;
   updateProspect: (id: string, patch: Partial<Prospect>) => void;
   addProspectNote: (id: string, texte: string) => void;
@@ -31,6 +31,10 @@ type Store = {
   updatePrestation: (id: string, patch: Partial<Prestation>) => void;
   updateTicket: (id: string, patch: Partial<Ticket>) => void;
   addTicketMessage: (id: string, texte: string, auteur: "habti" | "ia") => void;
+  addSocialPost: (p: SocialPost) => void; updateSocialPost: (id: string, patch: Partial<SocialPost>) => void; removeSocialPost: (id: string) => void;
+  addCampagne: (c: Campagne) => void; updateCampagne: (id: string, patch: Partial<Campagne>) => void;
+  addFaq: (f: FAQItem) => void; updateFaq: (id: string, patch: Partial<FAQItem>) => void; removeFaq: (id: string) => void;
+  addKnowledge: (k: KnowledgeItem) => void; updateKnowledge: (id: string, patch: Partial<KnowledgeItem>) => void; removeKnowledge: (id: string) => void;
   notify: (message: string) => void;
 };
 
@@ -50,9 +54,13 @@ export function HabtiProvider({ children }: { children: ReactNode }) {
   const [employes, setEmployes] = useState<Employe[]>(employesSeed);
   const [prestations, setPrestations] = useState<Prestation[]>(prestationsSeed);
   const [tickets, setTickets] = useState<Ticket[]>(ticketsSeed);
+  const [socialPosts, setSocialPosts] = useState<SocialPost[]>(socialPostsSeed);
+  const [campagnes, setCampagnes] = useState<Campagne[]>(campagnesSeed);
+  const [faq, setFaq] = useState<FAQItem[]>(faqSeed);
+  const [knowledge, setKnowledge] = useState<KnowledgeItem[]>(knowledgeSeed);
 
   const value = useMemo<Store>(() => ({
-    prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets,
+    prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets, socialPosts, campagnes, faq, knowledge,
     notify: (m) => toast.success(m),
     addProspect: (p) => setProspects((l) => [p, ...l]),
     updateProspect: (id, patch) => setProspects((l) => patchList(l, id, patch)),
@@ -81,9 +89,21 @@ export function HabtiProvider({ children }: { children: ReactNode }) {
     updateTicket: (id, patch) => setTickets((l) => patchList(l, id, patch)),
     addTicketMessage: (id, texte, auteur) => setTickets((l) => l.map((t) => t.id === id ? {
       ...t,
+      mode: auteur === "habti" ? "Humain" : t.mode,
       messages: [...t.messages, { id: newId("m"), auteur, texte, heure: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) }],
     } : t)),
-  }), [prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets]);
+    addSocialPost: (p) => setSocialPosts((l) => [p, ...l]),
+    updateSocialPost: (id, patch) => setSocialPosts((l) => patchList(l, id, patch)),
+    removeSocialPost: (id) => setSocialPosts((l) => l.filter((p) => p.id !== id)),
+    addCampagne: (c) => setCampagnes((l) => [c, ...l]),
+    updateCampagne: (id, patch) => setCampagnes((l) => patchList(l, id, patch)),
+    addFaq: (f) => setFaq((l) => [f, ...l]),
+    updateFaq: (id, patch) => setFaq((l) => patchList(l, id, patch)),
+    removeFaq: (id) => setFaq((l) => l.filter((f) => f.id !== id)),
+    addKnowledge: (k) => setKnowledge((l) => [k, ...l]),
+    updateKnowledge: (id, patch) => setKnowledge((l) => patchList(l, id, patch)),
+    removeKnowledge: (id) => setKnowledge((l) => l.filter((k) => k.id !== id)),
+  }), [prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets, socialPosts, campagnes, faq, knowledge]);
 
   return <HabtiContext.Provider value={value}>{children}</HabtiContext.Provider>;
 }
