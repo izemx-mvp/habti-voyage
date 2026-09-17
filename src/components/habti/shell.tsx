@@ -4,7 +4,7 @@ import { Bell, ChevronLeft, LogOut, Menu, Moon, PanelLeftClose, Plus, Search, Se
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
@@ -59,8 +59,8 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
     document.documentElement.classList.toggle("dark", next === "sombre");
   };
 
-  const Nav = ({ compact = false, onNavigate }: { compact?: boolean; onNavigate?: () => void }) => (
-    <nav className="sidebar-nav">
+  const Nav = ({ compact = false, onNavigate, label = "Navigation principale" }: { compact?: boolean; onNavigate?: () => void; label?: string }) => (
+    <nav className="sidebar-nav" aria-label={label}>
       {navGroups.map((g) => (
         <div className="nav-group" key={g.label}>
           {!compact && <p>{g.label}</p>}
@@ -104,17 +104,18 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
         </div>
       </aside>
 
-      <Sheet open={mobile} onOpenChange={setMobile}>
-        <SheetContent side="left" className="mobile-nav">
-          <SheetTitle className="sr-only">Navigation</SheetTitle>
-          <div className="sidebar-head"><HabtiLogo /></div>
-          <Nav onNavigate={() => setMobile(false)} />
-        </SheetContent>
-      </Sheet>
-
       <div className="shell-main">
         <header className="topbar">
-          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" onClick={() => setMobile(true)}><Menu /></Button>
+          <Sheet open={mobile} onOpenChange={setMobile}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu"><Menu /></Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="mobile-nav">
+              <SheetTitle className="sr-only">Navigation</SheetTitle>
+              <div className="sidebar-head"><HabtiLogo /></div>
+              <Nav label="Navigation mobile" onNavigate={() => setMobile(false)} />
+            </SheetContent>
+          </Sheet>
           <div>
             <h1>{meta.titre}</h1>
             <p>{meta.sous}</p>
@@ -122,6 +123,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
           <button type="button" className="global-search" onClick={() => setPalette(true)}>
             <Search /><span>Rechercher un client, un devis, une activité…</span><kbd>Ctrl K</kbd>
           </button>
+          <Button variant="ghost" size="icon" className="mobile-only mobile-search" aria-label="Rechercher" onClick={() => setPalette(true)}><Search /></Button>
           <Button className="quick-button" onClick={() => navigate({ to: "/reservations", search: { nouveau: "1" } })}><Plus />Nouvelle réservation</Button>
           <Button variant="ghost" size="icon" aria-label={theme === "clair" ? "Activer le mode sombre" : "Activer le mode clair"} title={theme === "clair" ? "Mode sombre" : "Mode clair"} onClick={toggleTheme}>
             {theme === "clair" ? <Moon /> : <Sun />}
