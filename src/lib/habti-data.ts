@@ -222,3 +222,55 @@ export const totalDevis = (d: Devis) => {
   const tva = (baseHt * d.tva) / 100;
   return { ht, remise, baseHt, tva, ttc: baseHt + tva };
 };
+
+// ---------- Agent Community Manager ----------
+export const JOURS_SEMAINE = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"] as const;
+export const TONS_EDITORIAUX = ["Premium", "Inspirant", "Chaleureux", "Dynamique", "Institutionnel", "Émotionnel", "Commercial", "Informatif"] as const;
+export const LANGUES = ["Français", "Français + Arabe", "Français + Anglais", "Multilingue"] as const;
+export const TYPES_CTA = ["Demander un devis", "Réserver l'expérience", "Planifier un appel", "Découvrir le programme", "Contacter HABTI"] as const;
+
+export type PlateformeConfig = { publications: number; stories?: number; reels?: number; videos?: number; jours: string[]; heures: string[] };
+
+export type AgentSettings = {
+  frequence: { Facebook: PlateformeConfig; Instagram: PlateformeConfig; TikTok: PlateformeConfig };
+  ligne: { ton: string; langue: string; audience: string; thematiques: string; interdits: string; cta: string; hashtags: string; motsPrivilegier: string; motsEviter: string };
+  repartition: { label: string; valeur: number }[];
+  automatisation: { id: string; label: string; actif: boolean }[];
+  connexions: { reseau: string; connecte: boolean; compte: string }[];
+};
+
+export const agentSettingsSeed: AgentSettings = {
+  frequence: {
+    Facebook: { publications: 3, jours: ["Lun", "Mer", "Ven"], heures: ["10:00", "18:30"] },
+    Instagram: { publications: 4, stories: 7, reels: 2, jours: ["Mar", "Jeu", "Sam"], heures: ["12:00", "19:00"] },
+    TikTok: { publications: 0, videos: 3, jours: ["Mer", "Ven", "Dim"], heures: ["17:00", "20:30"] },
+  },
+  ligne: {
+    ton: "Premium", langue: "Français + Anglais", audience: "Voyageurs européens 28-55 ans et entreprises MICE au Maroc",
+    thematiques: "Destinations, expériences désert, riads, événements corporate, savoir-faire HABTI",
+    interdits: "Politique, religion, promotions agressives, comparaisons concurrents",
+    cta: "Demander un devis", hashtags: "#HabtiVoyage #Maroc #Depuis1978 #VoyagePremium",
+    motsPrivilegier: "authentique, sur-mesure, confidentiel, accompagnement, art de recevoir",
+    motsEviter: "pas cher, promo choc, deal, low cost",
+  },
+  repartition: [
+    { label: "Destinations", valeur: 25 }, { label: "Activités", valeur: 25 }, { label: "Voyages", valeur: 15 },
+    { label: "Événements", valeur: 15 }, { label: "Conseils", valeur: 10 }, { label: "Marque HABTI", valeur: 10 },
+  ],
+  automatisation: [
+    { id: "idees", label: "Générer automatiquement des idées", actif: true },
+    { id: "brouillons", label: "Créer automatiquement des brouillons", actif: true },
+    { id: "variantes", label: "Générer plusieurs variantes", actif: false },
+    { id: "adaptation", label: "Adapter automatiquement le contenu à chaque plateforme", actif: true },
+    { id: "hashtags", label: "Générer automatiquement les hashtags", actif: true },
+    { id: "cta", label: "Proposer automatiquement des CTA", actif: true },
+    { id: "planification", label: "Planifier automatiquement les publications", actif: false },
+    { id: "publication", label: "Autoriser la publication automatique", actif: false },
+    { id: "validation", label: "Toujours demander une validation humaine avant publication", actif: true },
+  ],
+  connexions: [
+    { reseau: "Facebook", connecte: false, compte: "HABTI Voyage" },
+    { reseau: "Instagram", connecte: false, compte: "@habtivoyage" },
+    { reseau: "TikTok", connecte: false, compte: "@habtivoyage" },
+  ],
+};
