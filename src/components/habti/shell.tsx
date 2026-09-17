@@ -1,10 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Bell, ChevronLeft, LogOut, Menu, PanelLeftClose, Plus, Search, Settings2, User } from "lucide-react";
+import { Bell, ChevronLeft, LogOut, Menu, Moon, PanelLeftClose, Plus, Search, Settings2, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
@@ -28,6 +27,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
   const [reduit, setReduit] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [palette, setPalette] = useState(false);
+  const [theme, setTheme] = useState<"clair" | "sombre">("clair");
   const meta = pageMeta[path] ?? { titre: "Habti Voyage", sous: "" };
   const entites = [
     ...prospects.map((p) => ({ type: "Prospect", label: `${p.prenom} ${p.nom}`, detail: `${p.ville} · ${p.statut}`, to: "/prospects/$id" as const, id: p.id })),
@@ -40,6 +40,10 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
   ];
 
   useEffect(() => {
+    const saved = window.localStorage.getItem("habti-theme");
+    const initial = saved === "sombre" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "sombre" : "clair";
+    setTheme(initial);
+    document.documentElement.classList.toggle("dark", initial === "sombre");
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setPalette((v) => !v); }
     };
@@ -47,8 +51,24 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const Nav = ({ compact = false, onNavigate }: { compact?: boolean; onNavigate?: () => void }) => (
-    <nav className="sidebar-nav">
+  useEffect(() => {
+    if (!mobile) return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobile(false);
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, [mobile]);
+
+  const toggleTheme = () => {
+    const next = theme === "clair" ? "sombre" : "clair";
+    setTheme(next);
+    window.localStorage.setItem("habti-theme", next);
+    document.documentElement.classList.toggle("dark", next === "sombre");
+  };
+
+  const Nav = ({ compact = false, onNavigate, label = "Navigation principale" }: { compact?: boolean; onNavigate?: () => void; label?: string }) => (
+    <nav className="sidebar-nav" aria-label={label}>
       {navGroups.map((g) => (
         <div className="nav-group" key={g.label}>
           {!compact && <p>{g.label}</p>}
@@ -92,17 +112,9 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
         </div>
       </aside>
 
-      <Sheet open={mobile} onOpenChange={setMobile}>
-        <SheetContent side="left" className="mobile-nav">
-          <SheetTitle className="sr-only">Navigation</SheetTitle>
-          <div className="sidebar-head"><HabtiLogo /></div>
-          <Nav onNavigate={() => setMobile(false)} />
-        </SheetContent>
-      </Sheet>
-
       <div className="shell-main">
         <header className="topbar">
-          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" onClick={() => setMobile(true)}><Menu /></Button>
+          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" aria-expanded={mobile} onClick={() => setMobile(true)}><Menu /></Button>
           <div>
             <h1>{meta.titre}</h1>
             <p>{meta.sous}</p>
@@ -110,7 +122,11 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
           <button type="button" className="global-search" onClick={() => setPalette(true)}>
             <Search /><span>Rechercher un client, un devis, une activité…</span><kbd>Ctrl K</kbd>
           </button>
+          <Button variant="ghost" size="icon" className="mobile-only mobile-search" aria-label="Rechercher" onClick={() => setPalette(true)}><Search /></Button>
           <Button className="quick-button" onClick={() => navigate({ to: "/reservations", search: { nouveau: "1" } })}><Plus />Nouvelle réservation</Button>
+          <Button variant="ghost" size="icon" aria-label={theme === "clair" ? "Activer le mode sombre" : "Activer le mode clair"} title={theme === "clair" ? "Mode sombre" : "Mode clair"} onClick={toggleTheme}>
+            {theme === "clair" ? <Moon /> : <Sun />}
+          </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -149,6 +165,18 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
 
         <main className="shell-content">{children}</main>
       </div>
+
+      {mobile && (
+        <div className="mobile-nav-backdrop" onClick={(event) => { if (event.target === event.currentTarget) setMobile(false); }}>
+          <aside className="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation mobile">
+            <div className="sidebar-head">
+              <HabtiLogo />
+              <Button variant="ghost" size="icon" aria-label="Fermer la navigation" onClick={() => setMobile(false)}><ChevronLeft /></Button>
+            </div>
+            <Nav label="Navigation mobile" onNavigate={() => setMobile(false)} />
+          </aside>
+        </div>
+      )}
 
       <CommandDialog open={palette} onOpenChange={setPalette}>
         <CommandInput placeholder="Rechercher une page, un client, un devis, une opération…" />

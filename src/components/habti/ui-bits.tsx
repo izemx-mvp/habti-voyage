@@ -21,7 +21,7 @@ export function PanelTitle({ title, subtitle, action, onAction }: { title: strin
   return (
     <div className="panel-title">
       <div>
-        <h3>{title}</h3>
+        <h2>{title}</h2>
         {subtitle && <p>{subtitle}</p>}
       </div>
       {action && (
@@ -37,14 +37,13 @@ export function PanelTitle({ title, subtitle, action, onAction }: { title: strin
 export function Metric({ label, value, delta, icon: Icon, tone = "green", onClick }: {
   label: string; value: string; delta?: string; icon: ComponentType<{ className?: string }>; tone?: string; onClick?: () => void;
 }) {
-  return (
-    <button type="button" className={`metric-card ${onClick ? "is-clickable" : ""}`} onClick={onClick} disabled={!onClick}>
+  const content = <>
       <div className={`metric-icon ${tone}`}><Icon /></div>
       <div className="metric-top"><span>{label}</span><MoreHorizontal /></div>
       <strong>{value}</strong>
       {delta && <small><ArrowUpRight />{delta}<i> vs mois dernier</i></small>}
-    </button>
-  );
+  </>;
+  return onClick ? <button type="button" className="metric-card is-clickable" onClick={onClick}>{content}</button> : <div className="metric-card">{content}</div>;
 }
 
 const TONES: Record<string, string> = {
