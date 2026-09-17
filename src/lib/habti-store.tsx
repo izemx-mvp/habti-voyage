@@ -3,8 +3,10 @@ import { toast } from "sonner";
 import {
   clientsSeed, devisSeed, employesSeed, facturesSeed, missionsSeed, paiementsSeed,
   prestationsSeed, prospectsSeed, reservationsSeed, ticketsSeed, socialPostsSeed, campagnesSeed, faqSeed, knowledgeSeed, newId,
+  agentSettingsSeed,
   type Client, type Devis, type Employe, type Facture, type Mission, type Paiement,
   type Prestation, type Prospect, type Reservation, type Ticket, type SocialPost, type Campagne, type FAQItem, type KnowledgeItem,
+  type AgentSettings,
 } from "./habti-data";
 
 type Store = {
