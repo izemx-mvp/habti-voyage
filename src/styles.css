@@ -486,3 +486,68 @@ table tr{cursor:pointer}
 .login-brandline h1{font-size:30px}
 .detail-columns{grid-template-columns:1fr}
 }
+
+/* ===== Agent Community Manager ===== */
+.cm-subnav{display:flex;gap:6px;padding:6px;border-radius:12px;background:color-mix(in oklab,var(--muted) 70%,transparent);border:1px solid var(--border);width:fit-content;margin-bottom:6px}
+.cm-subnav a{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:9px;font-size:11px;color:var(--muted-foreground);text-decoration:none;transition:.2s ease}
+.cm-subnav a svg{width:15px}
+.cm-subnav a:hover{background:var(--card);color:var(--foreground)}
+.cm-subnav a.active,.cm-subnav a[data-status=active]{background:var(--primary);color:var(--primary-foreground);box-shadow:0 8px 20px color-mix(in oklab,var(--primary) 26%,transparent)}
+.module-title{font-family:var(--font-display);font-weight:400;font-size:24px;margin:0}
+.module-sub{font-size:11px;color:var(--muted-foreground);margin:5px 0 0}
+.post-visual{position:relative;border:0;padding:0;background:none;cursor:pointer;display:block;width:100%}
+.post-visual img{width:100%;height:170px;object-fit:cover;border-radius:10px 10px 0 0;display:block}
+.origin-tag{position:absolute;top:10px;left:10px;font-size:9px;padding:4px 9px;border-radius:99px;background:color-mix(in oklab,var(--card) 88%,transparent);color:var(--muted-foreground)}
+.origin-tag.ia{background:color-mix(in oklab,var(--primary) 85%,transparent);color:var(--primary-foreground)}
+.post-meta{display:flex;align-items:center;gap:6px;font-size:9px;color:var(--muted-foreground)}
+.post-meta svg{width:12px}
+.post-card{padding:0;overflow:hidden}
+.post-card .post-body{padding:14px;display:flex;flex-direction:column;gap:9px}
+.post-card .post-body p{font-size:10px;line-height:1.6;color:var(--muted-foreground);margin:0}
+/* Calendrier éditorial */
+.segmented{display:inline-flex;gap:3px;padding:4px;border-radius:9px;background:var(--muted)}
+.segmented button{border:0;background:transparent;font-size:10px;padding:7px 14px;border-radius:7px;cursor:pointer;color:var(--muted-foreground)}
+.segmented button.active{background:var(--card);color:var(--foreground);box-shadow:0 4px 12px oklch(.2 .02 250/.08)}
+.editorial-calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:14px}
+.editorial-calendar.vue-jour{grid-template-columns:1fr}
+.editorial-calendar.vue-semaine{grid-template-columns:repeat(7,1fr)}
+.cal-head{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);text-align:center;padding-bottom:4px}
+.cal-cell{min-height:118px;border:1px solid var(--border);border-radius:9px;padding:6px;display:flex;flex-direction:column;gap:5px;background:var(--card)}
+.cal-cell.muted{opacity:.45}
+.cal-day{align-self:flex-start;border:0;background:transparent;font-size:10px;color:var(--muted-foreground);cursor:pointer;border-radius:6px;padding:2px 6px}
+.cal-day:hover{background:color-mix(in oklab,var(--primary) 12%,transparent);color:var(--primary)}
+.cal-post{display:grid;grid-template-columns:34px 1fr 26px;gap:6px;align-items:center;padding:5px;border-radius:7px;background:color-mix(in oklab,var(--primary) 8%,transparent);border:1px solid color-mix(in oklab,var(--primary) 18%,transparent);cursor:grab}
+.cal-post img{width:34px;height:28px;object-fit:cover;border-radius:5px}
+.cal-post b{font-size:9px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cal-post span{font-size:8px;color:var(--muted-foreground);display:flex;align-items:center;gap:4px}
+.cal-post span svg{width:10px}
+.cal-post [data-slot=button]{width:22px;height:22px}
+.cal-empty{font-size:9px;color:color-mix(in oklab,var(--muted-foreground) 55%,transparent);margin:auto}
+/* Paramètres de l'agent */
+.agent-settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.frequency-card{display:flex;flex-direction:column;gap:12px}
+.frequency-head{display:flex;align-items:center;gap:9px;font-family:var(--font-display);font-size:17px}
+.frequency-head svg{width:18px;color:var(--primary)}
+.field-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground)}
+.counter-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px}
+.counter-row div{display:flex;align-items:center;gap:8px}
+.counter-row b{min-width:26px;text-align:center;font-family:var(--font-display);font-size:18px}
+.day-picker{display:flex;gap:6px;flex-wrap:wrap}
+.day-picker button{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--card);font-size:10px;cursor:pointer;color:var(--muted-foreground)}
+.day-picker button.active{background:var(--primary);color:var(--primary-foreground);border-color:transparent}
+.hours-row{display:flex;flex-direction:column;gap:7px}
+.hours-row>div{display:flex;gap:7px;align-items:center}
+.repartition{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.repartition-row{display:grid;grid-template-columns:150px 1fr 52px;gap:12px;align-items:center;font-size:11px}
+.repartition-row input[type=range]{accent-color:var(--primary)}
+.repartition-row b{text-align:right;color:var(--primary)}
+.toggle-list{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--border);font-size:11px}
+.toggle-row:last-child{border-bottom:0}
+.toggle-row small{display:block;font-size:9px;color:var(--muted-foreground);margin-top:3px}
+.connection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+.connection-card{border:1px solid var(--border);border-radius:11px;padding:15px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
+.connection-head{display:flex;align-items:center;gap:9px;font-size:12px}
+.connection-head svg{width:17px;color:var(--primary)}
+.sticky-save{position:sticky;bottom:14px;display:flex;justify-content:flex-end;gap:9px;padding:12px;border-radius:12px;background:color-mix(in oklab,var(--card) 88%,transparent);backdrop-filter:blur(16px);border:1px solid var(--border);box-shadow:0 16px 40px oklch(.2 .03 250/.12);z-index:5}
+.approval-text{font-size:11px}
