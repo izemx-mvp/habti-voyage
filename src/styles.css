@@ -551,3 +551,17 @@ table tr{cursor:pointer}
 .connection-head svg{width:17px;color:var(--primary)}
 .sticky-save{position:sticky;bottom:14px;display:flex;justify-content:flex-end;gap:9px;padding:12px;border-radius:12px;background:color-mix(in oklab,var(--card) 88%,transparent);backdrop-filter:blur(16px);border:1px solid var(--border);box-shadow:0 16px 40px oklch(.2 .03 250/.12);z-index:5}
 .approval-text{font-size:11px}
+.network-preview{max-width:470px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--card);margin-top:14px}
+.network-preview header{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.network-preview header b{font-size:11px;display:block}
+.network-preview header small{font-size:9px;color:var(--muted-foreground)}
+.avatar-dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--brand-gold));color:white;font-family:var(--font-display);font-size:15px}
+.network-preview>p{font-size:11px;line-height:1.65;padding:0 14px 12px;margin:0}
+.network-preview>img{width:100%;height:330px;object-fit:cover;display:block}
+.network-preview footer{display:flex;align-items:center;gap:14px;padding:12px 14px;font-size:10px;color:var(--muted-foreground)}
+.network-preview footer b{margin-left:auto;color:var(--primary)}
+.network-preview.tiktok>img{height:430px}
+.approval-row{display:grid;grid-template-columns:20px 1fr auto auto auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.approval-row>svg{width:16px;color:var(--primary)}
+.approval-text b{font-size:11px;display:block}
+.approval-text span{font-size:10px;color:var(--muted-foreground)}
