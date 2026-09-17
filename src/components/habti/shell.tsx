@@ -4,7 +4,6 @@ import { Bell, ChevronLeft, LogOut, Menu, Moon, PanelLeftClose, Plus, Search, Se
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger,
@@ -51,6 +50,15 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  useEffect(() => {
+    if (!mobile) return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobile(false);
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, [mobile]);
 
   const toggleTheme = () => {
     const next = theme === "clair" ? "sombre" : "clair";
@@ -106,16 +114,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
 
       <div className="shell-main">
         <header className="topbar">
-          <Sheet open={mobile} onOpenChange={setMobile}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu"><Menu /></Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="mobile-nav">
-              <SheetTitle className="sr-only">Navigation</SheetTitle>
-              <div className="sidebar-head"><HabtiLogo /></div>
-              <Nav label="Navigation mobile" onNavigate={() => setMobile(false)} />
-            </SheetContent>
-          </Sheet>
+          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" aria-expanded={mobile} onClick={() => setMobile(true)}><Menu /></Button>
           <div>
             <h1>{meta.titre}</h1>
             <p>{meta.sous}</p>
@@ -166,6 +165,18 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
 
         <main className="shell-content">{children}</main>
       </div>
+
+      {mobile && (
+        <div className="mobile-nav-backdrop" onMouseDown={() => setMobile(false)}>
+          <aside className="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation mobile" onMouseDown={(event) => event.stopPropagation()}>
+            <div className="sidebar-head">
+              <HabtiLogo />
+              <Button variant="ghost" size="icon" aria-label="Fermer la navigation" onClick={() => setMobile(false)}><ChevronLeft /></Button>
+            </div>
+            <Nav label="Navigation mobile" onNavigate={() => setMobile(false)} />
+          </aside>
+        </div>
+      )}
 
       <CommandDialog open={palette} onOpenChange={setPalette}>
         <CommandInput placeholder="Rechercher une page, un client, un devis, une opération…" />
