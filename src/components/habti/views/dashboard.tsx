@@ -89,7 +89,7 @@ export function DashboardView() {
         <Metric label="Opérations du jour" value={String(missionsJour.length)} icon={Clock3} onClick={() => navigate({ to: "/operations" })} />
         <Metric label="Devis à traiter" value={String(devisEnAttente)} icon={FileText} onClick={() => navigate({ to: "/devis", search: { statut: "À valider" } })} />
         <Metric label="Conversations support" value={String(tickets.filter((t) => t.statut !== "Résolu" && t.statut !== "Fermé").length)} icon={Bot} onClick={() => navigate({ to: "/agent-service-client" })} />
-        <Metric label="Publications planifiées" value={String(socialPosts.filter((p) => p.statut === "Planifié").length)} icon={Sparkle} tone="gold" onClick={() => navigate({ to: "/agent-community-manager" })} />
+        <Metric label="Publications planifiées" value={String(socialPosts.filter((p) => p.statut === "Planifié").length)} icon={Sparkle} tone="gold" onClick={() => navigate({ to: "/community-manager/idees" })} />
       </section>
 
       <section className="lower-grid">
@@ -145,7 +145,7 @@ export function DashboardView() {
               { icon: Plus, t: "Nouveau prospect", s: "Capter une opportunité", to: "/prospects" as const },
               { icon: CalendarDays, t: "Nouvelle réservation", s: "Réserver une expérience", to: "/reservations" as const },
               { icon: FileText, t: "Nouveau devis", s: "Construire une offre", to: "/devis" as const },
-              { icon: Sparkle, t: "Nouvelle publication", s: "Préparer les réseaux", to: "/agent-community-manager" as const },
+              { icon: Sparkle, t: "Nouvelle publication", s: "Préparer les réseaux", to: "/community-manager/idees" as const },
               { icon: Megaphone, t: "Nouvelle campagne", s: "Activer une audience", to: "/campagnes" as const },
             ].map(({ icon: Icon, t, s, to }) => (
               <button key={t} onClick={() => navigate({ to, search: { nouveau: "1" } })}>

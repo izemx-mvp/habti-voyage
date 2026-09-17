@@ -35,7 +35,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
     ...reservations.map((r) => ({ type: "Réservation", label: r.reference, detail: `${r.client} · ${r.prestation}`, to: "/reservations/$id" as const, id: r.id })),
     ...devis.map((d) => ({ type: "Devis", label: d.reference, detail: `${d.client} · ${d.statut}`, to: "/devis/$id" as const, id: d.id })),
     ...missions.map((m) => ({ type: "Opération", label: m.titre, detail: `${m.client} · ${m.statut}`, to: "/operations/$id" as const, id: m.id })),
-    ...socialPosts.map((post) => ({ type: "Publication", label: post.titre, detail: `${post.type} · ${post.statut}`, to: "/agent-community-manager/$id" as const, id: post.id })),
+    ...socialPosts.map((post) => ({ type: "Publication", label: post.titre, detail: `${post.type} · ${post.statut}`, to: "/community-manager/idees/$id" as const, id: post.id })),
     ...campagnes.map((c) => ({ type: "Campagne", label: c.nom, detail: `${c.canal} · ${c.statut}`, to: "/campagnes/$id" as const, id: c.id })),
   ];
 
@@ -176,7 +176,8 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
             <CommandItem value="Nouvelle réservation" onSelect={() => { setPalette(false); navigate({ to: "/reservations", search: { nouveau: "1" } }); }}>Créer une réservation</CommandItem>
             <CommandItem value="Nouveau devis" onSelect={() => { setPalette(false); navigate({ to: "/devis", search: { nouveau: "1" } }); }}>Créer un devis</CommandItem>
             <CommandItem value="Nouvelle campagne" onSelect={() => { setPalette(false); navigate({ to: "/campagnes", search: { nouveau: "1" } }); }}>Créer une campagne</CommandItem>
-            <CommandItem value="Nouvelle publication" onSelect={() => { setPalette(false); navigate({ to: "/agent-community-manager", search: { nouveau: "1" } }); }}>Créer une publication</CommandItem>
+            <CommandItem value="Nouvelle publication" onSelect={() => { setPalette(false); navigate({ to: "/community-manager/idees" }); }}>Créer une publication</CommandItem>
+            <CommandItem value="Planning éditorial" onSelect={() => { setPalette(false); navigate({ to: "/community-manager/planning" }); }}>Ouvrir le planning éditorial</CommandItem>
             <CommandItem value="Enregistrer un paiement" onSelect={() => { setPalette(false); navigate({ to: "/paiements", search: { nouveau: "1" } }); }}>Enregistrer un paiement</CommandItem>
           </CommandGroup>
         </CommandList>
