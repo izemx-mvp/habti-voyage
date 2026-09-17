@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Bell, ChevronLeft, LogOut, Menu, PanelLeftClose, Plus, Search, Settings2, User } from "lucide-react";
+import { Bell, ChevronLeft, LogOut, Menu, Moon, PanelLeftClose, Plus, Search, Settings2, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +28,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
   const [reduit, setReduit] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [palette, setPalette] = useState(false);
+  const [theme, setTheme] = useState<"clair" | "sombre">("clair");
   const meta = pageMeta[path] ?? { titre: "Habti Voyage", sous: "" };
   const entites = [
     ...prospects.map((p) => ({ type: "Prospect", label: `${p.prenom} ${p.nom}`, detail: `${p.ville} · ${p.statut}`, to: "/prospects/$id" as const, id: p.id })),
@@ -40,12 +41,23 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
   ];
 
   useEffect(() => {
+    const saved = window.localStorage.getItem("habti-theme");
+    const initial = saved === "sombre" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "sombre" : "clair";
+    setTheme(initial);
+    document.documentElement.classList.toggle("dark", initial === "sombre");
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setPalette((v) => !v); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "clair" ? "sombre" : "clair";
+    setTheme(next);
+    window.localStorage.setItem("habti-theme", next);
+    document.documentElement.classList.toggle("dark", next === "sombre");
+  };
 
   const Nav = ({ compact = false, onNavigate }: { compact?: boolean; onNavigate?: () => void }) => (
     <nav className="sidebar-nav">
@@ -111,6 +123,9 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
             <Search /><span>Rechercher un client, un devis, une activité…</span><kbd>Ctrl K</kbd>
           </button>
           <Button className="quick-button" onClick={() => navigate({ to: "/reservations", search: { nouveau: "1" } })}><Plus />Nouvelle réservation</Button>
+          <Button variant="ghost" size="icon" aria-label={theme === "clair" ? "Activer le mode sombre" : "Activer le mode clair"} title={theme === "clair" ? "Mode sombre" : "Mode clair"} onClick={toggleTheme}>
+            {theme === "clair" ? <Moon /> : <Sun />}
+          </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
