@@ -1,17 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { HabtiShell } from "@/components/habti/shell";
-import { MissionsView } from "@/components/habti/views/missions";
-import { validateHabtiSearch } from "@/components/habti/search";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/missions")({
-  validateSearch: validateHabtiSearch,
+  beforeLoad: () => { throw redirect({ to: "/operations" }); },
   head: () => ({ meta: [
-    { title: "Missions & opérations — Habti Voyage" },
-    { name: "description", content: "Affectations terrain, checklists et suivi logistique des missions Habti Voyage." },
-    { property: "og:title", content: "Missions & opérations — Habti Voyage" },
-    { property: "og:description", content: "Pilotez la réalisation des prestations et l'affectation des équipes." },
+    { title: "Redirection opérations — Habti Voyage" },
+    { name: "description", content: "Redirection vers le command center opérations Habti Voyage." },
+    { property: "og:title", content: "Opérations — Habti Voyage" },
+    { property: "og:description", content: "Checklists, équipes et validations terrain Habti Voyage." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
-  component: () => <HabtiShell path="/missions"><MissionsView /></HabtiShell>,
 });

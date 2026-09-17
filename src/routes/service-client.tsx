@@ -1,17 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { HabtiShell } from "@/components/habti/shell";
-import { ServiceClientView } from "@/components/habti/views/service-client";
-import { validateHabtiSearch } from "@/components/habti/search";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/service-client")({
-  validateSearch: validateHabtiSearch,
+  beforeLoad: () => { throw redirect({ to: "/agent-service-client" }); },
   head: () => ({ meta: [
-    { title: "Service client — Habti Voyage" },
-    { name: "description", content: "Conversations omnicanales assistées par l'IA pour les voyageurs Habti Voyage." },
-    { property: "og:title", content: "Service client — Habti Voyage" },
-    { property: "og:description", content: "Répondez plus vite avec le contexte client complet et les réponses IA." },
+    { title: "Redirection service client — Habti Voyage" },
+    { name: "description", content: "Redirection vers l'Agent Service Client Habti Voyage." },
+    { property: "og:title", content: "Agent Service Client — Habti Voyage" },
+    { property: "og:description", content: "Conversations omnicanales et relais humain Habti Voyage." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
-  component: () => <HabtiShell path="/service-client"><ServiceClientView /></HabtiShell>,
 });

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Save, Sparkles } from "lucide-react";
+import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Field, Panel, PanelTitle, SelectInput, TextArea, TextInput } from "@/components/habti/ui-bits";
@@ -8,7 +8,6 @@ import { useHabti } from "@/lib/habti-store";
 
 const ONGLETS = [
   ["entreprise", "Entreprise"],
-  ["ia", "Configuration IA"],
   ["equipe", "Équipe & accès"],
   ["notifications", "Notifications"],
 ] as const;
@@ -16,11 +15,7 @@ const ONGLETS = [
 export function ParametresView() {
   const { employes, notify } = useHabti();
   const [onglet, setOnglet] = useState<(typeof ONGLETS)[number][0]>("entreprise");
-  const [tonalite, setTonalite] = useState("Élégante et chaleureuse");
-  const [langue, setLangue] = useState("Français");
-  const [auto, setAuto] = useState(true);
-  const [escalade, setEscalade] = useState(true);
-  const [alertes, setAlertes] = useState({ reservations: true, paiements: true, missions: false, ia: true });
+  const [alertes, setAlertes] = useState({ reservations: true, paiements: true, missions: false, suggestions: true });
 
   return (
     <div className="module-stack">
@@ -44,31 +39,6 @@ export function ParametresView() {
             <Field label="TVA appliquée (%)"><TextInput type="number" defaultValue={20} /></Field>
             <Field label="Mentions légales sur les documents" full><TextArea defaultValue="Habti Voyage — Agence de voyages et d'événements au Maroc — Depuis 1978." /></Field>
             <div className="field-full drawer-actions"><Button type="submit"><Save />Enregistrer les modifications</Button></div>
-          </form>
-        </Panel>
-      )}
-
-      {onglet === "ia" && (
-        <Panel>
-          <PanelTitle title="Configuration de l'assistant IA" subtitle="Comportement des agents de prospection, de conseil et de service client" />
-          <form className="form-grid" onSubmit={(e) => { e.preventDefault(); notify("Configuration IA enregistrée."); }}>
-            <Field label="Tonalité des réponses"><SelectInput value={tonalite} onChange={(e) => setTonalite(e.currentTarget.value)} options={["Élégante et chaleureuse", "Professionnelle et directe", "Conviviale et détendue"]} /></Field>
-            <Field label="Langue principale"><SelectInput value={langue} onChange={(e) => setLangue(e.currentTarget.value)} options={["Français", "Arabe", "Anglais", "Espagnol"]} /></Field>
-            <Field label="Budget minimum qualifié (€)"><TextInput type="number" defaultValue={1500} /></Field>
-            <Field label="Délai de relance automatique (jours)"><TextInput type="number" defaultValue={3} /></Field>
-            <Field label="Instructions métier" full><TextArea rows={4} defaultValue="Toujours proposer trois expériences complémentaires, mentionner la saisonnalité et ne jamais confirmer une disponibilité sans validation d'un conseiller." /></Field>
-            <div className="field-full switch-row">
-              <div><b>Qualification automatique des demandes entrantes</b><span>L'agent IA qualifie et enrichit la fiche prospect sans intervention.</span></div>
-              <Switch checked={auto} onCheckedChange={(v) => { setAuto(v); notify(v ? "Qualification automatique activée." : "Qualification automatique désactivée."); }} />
-            </div>
-            <div className="field-full switch-row">
-              <div><b>Escalade vers un conseiller</b><span>Transfert humain en cas de réclamation, litige de paiement ou sujet sensible.</span></div>
-              <Switch checked={escalade} onCheckedChange={(v) => { setEscalade(v); notify(v ? "Escalade activée." : "Escalade désactivée."); }} />
-            </div>
-            <div className="field-full drawer-actions">
-              <Button type="button" variant="outline" onClick={() => notify("Test de l'assistant lancé.")}><Sparkles />Tester l'assistant</Button>
-              <Button type="submit"><Save />Enregistrer la configuration</Button>
-            </div>
           </form>
         </Panel>
       )}
@@ -101,7 +71,7 @@ export function ParametresView() {
       {onglet === "notifications" && (
         <Panel>
           <PanelTitle title="Notifications" subtitle="Choisissez les alertes que vous souhaitez recevoir" />
-          {([["reservations", "Nouvelles réservations"], ["paiements", "Paiements et relances"], ["missions", "Missions du jour"], ["ia", "Suggestions de l'assistant IA"]] as const).map(([cle, label]) => (
+          {([["reservations", "Nouvelles réservations"], ["paiements", "Paiements et relances"], ["missions", "Missions du jour"], ["suggestions", "Suggestions des agents"]] as const).map(([cle, label]) => (
             <div className="switch-row" key={cle}>
               <div><b>{label}</b><span>Recevoir une alerte dans l'application et par e-mail.</span></div>
               <Switch checked={alertes[cle]} onCheckedChange={(v) => { setAlertes((a) => ({ ...a, [cle]: v })); notify(v ? `${label} : alertes activées.` : `${label} : alertes désactivées.`); }} />

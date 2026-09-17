@@ -24,11 +24,20 @@ const notifications = [
 
 export function HabtiShell({ path, children }: { path: string; children: ReactNode }) {
   const navigate = useNavigate();
-  const { notify } = useHabti();
+  const { notify, prospects, clients, reservations, devis, missions, socialPosts, campagnes } = useHabti();
   const [reduit, setReduit] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [palette, setPalette] = useState(false);
   const meta = pageMeta[path] ?? { titre: "Habti Voyage", sous: "" };
+  const entites = [
+    ...prospects.map((p) => ({ type: "Prospect", label: `${p.prenom} ${p.nom}`, detail: `${p.ville} · ${p.statut}`, to: "/prospects/$id" as const, id: p.id })),
+    ...clients.map((c) => ({ type: "Client", label: c.nom, detail: `${c.ville} · ${c.segment}`, to: "/clients/$id" as const, id: c.id })),
+    ...reservations.map((r) => ({ type: "Réservation", label: r.reference, detail: `${r.client} · ${r.prestation}`, to: "/reservations/$id" as const, id: r.id })),
+    ...devis.map((d) => ({ type: "Devis", label: d.reference, detail: `${d.client} · ${d.statut}`, to: "/devis/$id" as const, id: d.id })),
+    ...missions.map((m) => ({ type: "Opération", label: m.titre, detail: `${m.client} · ${m.statut}`, to: "/operations/$id" as const, id: m.id })),
+    ...socialPosts.map((post) => ({ type: "Publication", label: post.titre, detail: `${post.type} · ${post.statut}`, to: "/agent-community-manager/$id" as const, id: post.id })),
+    ...campagnes.map((c) => ({ type: "Campagne", label: c.nom, detail: `${c.canal} · ${c.statut}`, to: "/campagnes/$id" as const, id: c.id })),
+  ];
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -130,10 +139,10 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate({ to: "/parametres" })}><User />Mon profil</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate({ to: "/parametres" })}><Settings2 />Paramètres</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate({ to: "/parametres-compte" })}><User />Mon profil</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate({ to: "/parametres" })}><Settings2 />Paramètres entreprise</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => notify("Vous avez été déconnectée de la démonstration.")}><LogOut />Se déconnecter</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => { notify("Vous avez été déconnectée de la démonstration."); navigate({ to: "/connexion" }); }}><LogOut />Se déconnecter</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
@@ -142,7 +151,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
       </div>
 
       <CommandDialog open={palette} onOpenChange={setPalette}>
-        <CommandInput placeholder="Rechercher une page ou une action…" />
+        <CommandInput placeholder="Rechercher une page, un client, un devis, une opération…" />
         <CommandList>
           <CommandEmpty>Aucun résultat.</CommandEmpty>
           {navGroups.map((g) => (
@@ -154,10 +163,20 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
               ))}
             </CommandGroup>
           ))}
+          <CommandGroup heading="DOSSIERS">
+            {entites.slice(0, 18).map((e) => (
+              <CommandItem key={`${e.type}-${e.id}`} value={`${e.type} ${e.label} ${e.detail}`} onSelect={() => { setPalette(false); navigate({ to: e.to, params: { id: e.id } }); }}>
+                <Search />
+                <div className="command-entity"><b>{e.label}</b><span>{e.type} · {e.detail}</span></div>
+              </CommandItem>
+            ))}
+          </CommandGroup>
           <CommandGroup heading="ACTIONS RAPIDES">
             <CommandItem value="Nouveau prospect" onSelect={() => { setPalette(false); navigate({ to: "/prospects", search: { nouveau: "1" } }); }}>Créer un prospect</CommandItem>
             <CommandItem value="Nouvelle réservation" onSelect={() => { setPalette(false); navigate({ to: "/reservations", search: { nouveau: "1" } }); }}>Créer une réservation</CommandItem>
             <CommandItem value="Nouveau devis" onSelect={() => { setPalette(false); navigate({ to: "/devis", search: { nouveau: "1" } }); }}>Créer un devis</CommandItem>
+            <CommandItem value="Nouvelle campagne" onSelect={() => { setPalette(false); navigate({ to: "/campagnes", search: { nouveau: "1" } }); }}>Créer une campagne</CommandItem>
+            <CommandItem value="Nouvelle publication" onSelect={() => { setPalette(false); navigate({ to: "/agent-community-manager", search: { nouveau: "1" } }); }}>Créer une publication</CommandItem>
             <CommandItem value="Enregistrer un paiement" onSelect={() => { setPalette(false); navigate({ to: "/paiements", search: { nouveau: "1" } }); }}>Enregistrer un paiement</CommandItem>
           </CommandGroup>
         </CommandList>

@@ -21,7 +21,6 @@ export function ReservationsView() {
   const [statut, setStatut] = useState(search.statut ?? "Tous");
   const [creation, setCreation] = useState(search.nouveau === "1");
   const [edition, setEdition] = useState<Reservation | null>(null);
-  const [detail, setDetail] = useState<Reservation | null>(reservations.find((r) => r.id === search.id) ?? null);
   const [annulation, setAnnulation] = useState<Reservation | null>(null);
 
   const liste = useMemo(() => reservations.filter((r) => {
@@ -103,7 +102,7 @@ export function ReservationsView() {
               <thead><tr><th>Référence</th><th>Client</th><th>Prestation</th><th>Date</th><th>Participants</th><th>Tarif</th><th>Statut</th><th /></tr></thead>
               <tbody>
                 {liste.map((r) => (
-                  <tr key={r.id} onClick={() => setDetail(r)}>
+                  <tr key={r.id} onClick={() => navigate({ to: "/reservations/$id", params: { id: r.id } })}>
                     <td><b>{r.reference}</b></td>
                     <td>{r.client}</td>
                     <td><div><b>{r.prestation}</b><span>{r.ville} · {r.employe}</span></div></td>
@@ -113,7 +112,7 @@ export function ReservationsView() {
                     <td><StatutBadge statut={r.statut} /></td>
                     <td>
                       <RowMenu actions={[
-                        { label: "Voir", onSelect: () => setDetail(r) },
+                        { label: "Voir", onSelect: () => navigate({ to: "/reservations/$id", params: { id: r.id } }) },
                         { label: "Modifier", onSelect: () => setEdition(r) },
                         { label: "Confirmer", onSelect: () => confirmer(r) },
                         { label: "Affecter", onSelect: () => navigate({ to: "/employes" }) },
@@ -144,32 +143,6 @@ export function ReservationsView() {
         titre="Êtes-vous sûr de vouloir annuler cette réservation ?" confirmLabel="Confirmer l'annulation"
         onConfirm={() => { if (annulation) { updateReservation(annulation.id, { statut: "Annulée" }); notify("Réservation annulée."); } setAnnulation(null); }} />
 
-      {detail && (
-        <div className="drawer-backdrop" onMouseDown={() => setDetail(null)}>
-          <aside className="detail-drawer" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-label={`Réservation ${detail.reference}`}>
-            <div className="drawer-head">
-              <div><div><h2>{detail.prestation}</h2><p>{detail.reference} · {detail.client}</p></div></div>
-              <Button variant="ghost" size="icon" onClick={() => setDetail(null)} aria-label="Fermer">×</Button>
-            </div>
-            <div className="data-grid">
-              <div><span>Date</span><b>{dateFr(detail.date)} à {detail.heure}</b></div>
-              <div><span>Ville</span><b>{detail.ville}</b></div>
-              <div><span>Participants</span><b>{detail.participants}</b></div>
-              <div><span>Tarif</span><b>{euro(detail.tarif)}</b></div>
-              <div><span>Employé responsable</span><b>{detail.employe || "Non affecté"}</b></div>
-              <div><span>Statut</span><b>{detail.statut}</b></div>
-            </div>
-            <p className="drawer-note">{detail.notes || "Aucune note opérationnelle."}</p>
-            <div className="drawer-actions">
-              <Button variant="outline" onClick={() => { setEdition(detail); setDetail(null); }}>Modifier</Button>
-              <Button variant="outline" onClick={() => confirmer(detail)}>Confirmer</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/planning" })}>Voir dans le planning</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/devis", search: { nouveau: "1" } })}>Créer un devis</Button>
-              <Button variant="outline" onClick={() => setAnnulation(detail)}>Annuler</Button>
-            </div>
-          </aside>
-        </div>
-      )}
     </div>
   );
 }

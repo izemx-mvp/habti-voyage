@@ -6,10 +6,10 @@ import { validateHabtiSearch } from "@/components/habti/search";
 export const Route = createFileRoute("/parametres")({
   validateSearch: validateHabtiSearch,
   head: () => ({ meta: [
-    { title: "Paramètres & configuration IA — Habti Voyage" },
-    { name: "description", content: "Informations d'agence, équipe, documents et comportement des agents IA Habti Voyage." },
-    { property: "og:title", content: "Paramètres & configuration IA — Habti Voyage" },
-    { property: "og:description", content: "Personnalisez la tonalité, la langue et les règles de qualification de l'IA." },
+    { title: "Paramètres — Habti Voyage" },
+    { name: "description", content: "Informations d’agence, équipe, documents et règles métier Habti Voyage." },
+    { property: "og:title", content: "Paramètres — Habti Voyage" },
+    { property: "og:description", content: "Configurez les informations d’entreprise, l’équipe et les notifications." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
