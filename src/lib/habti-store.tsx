@@ -3,8 +3,10 @@ import { toast } from "sonner";
 import {
   clientsSeed, devisSeed, employesSeed, facturesSeed, missionsSeed, paiementsSeed,
   prestationsSeed, prospectsSeed, reservationsSeed, ticketsSeed, socialPostsSeed, campagnesSeed, faqSeed, knowledgeSeed, newId,
+  agentSettingsSeed,
   type Client, type Devis, type Employe, type Facture, type Mission, type Paiement,
   type Prestation, type Prospect, type Reservation, type Ticket, type SocialPost, type Campagne, type FAQItem, type KnowledgeItem,
+  type AgentSettings,
 } from "./habti-data";
 
 type Store = {
@@ -35,6 +37,7 @@ type Store = {
   addCampagne: (c: Campagne) => void; updateCampagne: (id: string, patch: Partial<Campagne>) => void;
   addFaq: (f: FAQItem) => void; updateFaq: (id: string, patch: Partial<FAQItem>) => void; removeFaq: (id: string) => void;
   addKnowledge: (k: KnowledgeItem) => void; updateKnowledge: (id: string, patch: Partial<KnowledgeItem>) => void; removeKnowledge: (id: string) => void;
+  agentSettings: AgentSettings; updateAgentSettings: (patch: Partial<AgentSettings>) => void; resetAgentSettings: () => void;
   notify: (message: string) => void;
 };
 
@@ -58,9 +61,13 @@ export function HabtiProvider({ children }: { children: ReactNode }) {
   const [campagnes, setCampagnes] = useState<Campagne[]>(campagnesSeed);
   const [faq, setFaq] = useState<FAQItem[]>(faqSeed);
   const [knowledge, setKnowledge] = useState<KnowledgeItem[]>(knowledgeSeed);
+  const [agentSettings, setAgentSettings] = useState<AgentSettings>(agentSettingsSeed);
 
   const value = useMemo<Store>(() => ({
     prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets, socialPosts, campagnes, faq, knowledge,
+    agentSettings,
+    updateAgentSettings: (patch) => setAgentSettings((s) => ({ ...s, ...patch })),
+    resetAgentSettings: () => setAgentSettings(agentSettingsSeed),
     notify: (m) => toast.success(m),
     addProspect: (p) => setProspects((l) => [p, ...l]),
     updateProspect: (id, patch) => setProspects((l) => patchList(l, id, patch)),
@@ -103,7 +110,7 @@ export function HabtiProvider({ children }: { children: ReactNode }) {
     addKnowledge: (k) => setKnowledge((l) => [k, ...l]),
     updateKnowledge: (id, patch) => setKnowledge((l) => patchList(l, id, patch)),
     removeKnowledge: (id) => setKnowledge((l) => l.filter((k) => k.id !== id)),
-  }), [prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets, socialPosts, campagnes, faq, knowledge]);
+  }), [prospects, clients, reservations, devis, paiements, factures, missions, employes, prestations, tickets, socialPosts, campagnes, faq, knowledge, agentSettings]);
 
   return <HabtiContext.Provider value={value}>{children}</HabtiContext.Provider>;
 }

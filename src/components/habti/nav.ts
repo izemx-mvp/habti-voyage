@@ -24,7 +24,14 @@ export const navGroups: { label: string; items: NavItem[] }[] = [
       { path: "/conseiller-ia", label: "Conseiller Voyage & Activités", icon: Bot },
     ],
   },
-  { label: "MARKETING", items: [{ path: "/agent-community-manager", label: "Agent Community Manager", icon: Sparkles }] },
+  {
+    label: "MARKETING",
+    items: [
+      { path: "/community-manager/idees", label: "Agent CM — Idées", icon: Sparkles },
+      { path: "/community-manager/planning", label: "Agent CM — Planning", icon: CalendarRange },
+      { path: "/community-manager/parametres", label: "Agent CM — Paramètres", icon: Settings2 },
+    ],
+  },
   {
     label: "OPÉRATIONS",
     items: [
@@ -48,7 +55,9 @@ export const pageMeta: Record<string, { titre: string; sous: string }> = {
   "/devis": { titre: "Devis", sous: "Construisez, envoyez et suivez vos propositions commerciales." },
   "/agent-service-client": { titre: "Agent Service Client", sous: "Conversations omnicanales, FAQ, connaissance et prise de relais humain." },
   "/conseiller-ia": { titre: "Conseiller Voyage & Activités", sous: "Recommandations personnalisées selon ville, mood, budget et profil client." },
-  "/agent-community-manager": { titre: "Agent Community Manager", sous: "Idées, planning éditorial et réglages de publication en mode démonstration." },
+  "/community-manager/idees": { titre: "Agent Community Manager", sous: "Idées, planning éditorial et paramètres de l'agent." },
+  "/community-manager/planning": { titre: "Agent Community Manager", sous: "Idées, planning éditorial et paramètres de l'agent." },
+  "/community-manager/parametres": { titre: "Agent Community Manager", sous: "Idées, planning éditorial et paramètres de l'agent." },
   "/planning": { titre: "Planning", sous: "Vue jour, semaine et mois des activités et affectations." },
   "/operations": { titre: "Opérations", sous: "Command center terrain, checklists, équipe et analyse IA." },
   "/missions": { titre: "Opérations", sous: "Command center terrain, checklists, équipe et analyse IA." },
