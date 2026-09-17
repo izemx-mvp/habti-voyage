@@ -179,7 +179,7 @@ export const ticketsSeed: Ticket[] = [
 
 export const socialPostsSeed: SocialPost[] = [
   { id: "POST-401", titre: "Week-end premium à Marrakech", legende: "Un riad confidentiel, un hammam traditionnel et un dîner spectacle pour vivre Marrakech avec élégance.", hashtags: "#HabtiVoyage #Marrakech #VoyagePremium", plateformes: ["Instagram", "Facebook"], type: "Carrousel", theme: "Destination", date: "2026-09-18", heure: "18:30", statut: "Planifié", origine: "IA", image: riad, campagne: "Automne au Maroc", cta: "Demander un devis", format: "Carrousel 5 slides" },
-  { id: "POST-402", titre: "Team building dans le désert d'Agafay", legende: "Transformez votre séminaire en expérience collective mémorable : quad, défis d'équipe et dîner sous tente caïdale.", hashtags: "#TeamBuilding #Agafay #MICEMaroc", plateformes: ["LinkedIn", "Facebook"].filter(Boolean), type: "Publication", theme: "Événement", date: "2026-09-20", heure: "10:00", statut: "À valider", origine: "Manuel", image: sahara, campagne: "MICE Maroc", cta: "Planifier un appel", format: "Post image" },
+  { id: "POST-402", titre: "Team building dans le désert d'Agafay", legende: "Transformez votre séminaire en expérience collective mémorable : quad, défis d'équipe et dîner sous tente caïdale.", hashtags: "#TeamBuilding #Agafay #MICEMaroc", plateformes: ["Facebook"], type: "Publication", theme: "Événement", date: "2026-09-20", heure: "10:00", statut: "À valider", origine: "Manuel", image: sahara, campagne: "MICE Maroc", cta: "Planifier un appel", format: "Post image" },
   { id: "POST-403", titre: "Lever de soleil sur les dunes", legende: "Merzouga au petit matin : silence, lumière dorée et campement privé préparé par l'équipe HABTI.", hashtags: "#Merzouga #DesertExperience #Depuis1978", plateformes: ["TikTok", "Instagram"], type: "Reel", theme: "Activité", date: "2026-09-22", heure: "07:45", statut: "Brouillon", origine: "IA", image: sahara, campagne: "Automne au Maroc", cta: "Réserver l'expérience", format: "Vidéo courte" },
 ];
 
@@ -197,7 +197,7 @@ export const faqSeed: FAQItem[] = [
 
 export const knowledgeSeed: KnowledgeItem[] = [
   { id: "KB-1", titre: "Conditions d'annulation excursions", categorie: "Conditions", type: "Document", statut: "Active", maj: "2026-09-11", contenu: "Règles de report, remboursement partiel et validation prestataire." },
-  { id: "KB-2", titre: "Procédure accueil VIP Marrakech", categorie: "Internal procedures", type: "Contenu manuel", statut: "Active", maj: "2026-09-14", contenu: "Brief chauffeur, panier d'accueil, contact riad et confirmation horaires." },
+  { id: "KB-2", titre: "Procédure accueil VIP Marrakech", categorie: "Procédures internes", type: "Contenu manuel", statut: "Active", maj: "2026-09-14", contenu: "Brief chauffeur, panier d'accueil, contact riad et confirmation horaires." },
   { id: "KB-3", titre: "Grille prix activités désert", categorie: "Prix", type: "Document", statut: "Active", maj: "2026-09-09", contenu: "Tarifs bivouac, 4x4, dromadaire, dîner spectacle et suppléments privés." },
 ];
 
