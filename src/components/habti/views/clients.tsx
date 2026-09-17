@@ -19,6 +19,7 @@ export function ClientsView() {
   const [ville, setVille] = useState("Tous");
   const [segment, setSegment] = useState("Tous");
   const [creation, setCreation] = useState(search.nouveau === "1");
+  const [selection, setSelection] = useState<string | null>(null);
 
   const liste = useMemo(() => clients.filter((c) => {
     if (q && !`${c.nom} ${c.email} ${c.ville}`.toLowerCase().includes(q.toLowerCase())) return false;
@@ -64,7 +65,7 @@ export function ClientsView() {
               </thead>
               <tbody>
                 {liste.map((c) => (
-                  <tr key={c.id} onClick={() => navigate({ to: "/clients/$id", params: { id: c.id } })}>
+                  <tr key={c.id} className={selection === c.id ? "is-selected" : ""} onClick={() => setSelection(c.id)} onDoubleClick={() => navigate({ to: "/clients/$id", params: { id: c.id } })}>
                     <td>
                       <Avatar><AvatarFallback>{c.nom.slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
                       <div><b>{c.nom}</b><span>{c.ville} · {c.email}</span></div>
@@ -75,7 +76,7 @@ export function ClientsView() {
                     <td>{c.depuis}</td>
                     <td>
                       <RowMenu actions={[
-                        { label: "Voir les détails", onSelect: () => navigate({ to: "/clients/$id", params: { id: c.id } }) },
+                        { label: "Voir le détail", onSelect: () => navigate({ to: "/clients/$id", params: { id: c.id } }) },
                         { label: "Nouvelle réservation", onSelect: () => navigate({ to: "/reservations", search: { nouveau: "1" } }) },
                         { label: "Créer un devis", onSelect: () => navigate({ to: "/devis", search: { nouveau: "1" } }) },
                         { label: "Voir les factures", onSelect: () => navigate({ to: "/factures" }) },

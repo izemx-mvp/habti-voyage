@@ -33,6 +33,7 @@ export function ProspectsView() {
   const [creation, setCreation] = useState(search.nouveau === "1");
   const [edition, setEdition] = useState<Prospect | null>(null);
   const [archive, setArchive] = useState<Prospect | null>(null);
+  const [selection, setSelection] = useState<string | null>(null);
 
   const filtres = useMemo(() => {
     const list = prospects.filter((p) => {
@@ -165,7 +166,7 @@ export function ProspectsView() {
                 </thead>
                 <tbody>
                   {visibles.map((p) => (
-                    <tr key={p.id} onClick={() => navigate({ to: "/prospects/$id", params: { id: p.id } })}>
+                    <tr key={p.id} className={selection === p.id ? "is-selected" : ""} onClick={() => setSelection(p.id)} onDoubleClick={() => navigate({ to: "/prospects/$id", params: { id: p.id } })}>
                       <td>
                         <Avatar><AvatarFallback>{p.prenom[0]}{p.nom[0]}</AvatarFallback></Avatar>
                         <div><b>{p.prenom} {p.nom}</b><span><MapPin />{p.ville}</span></div>
@@ -177,7 +178,7 @@ export function ProspectsView() {
                       <td>{p.source}</td>
                       <td>
                         <RowMenu actions={[
-                          { label: "Voir les détails", onSelect: () => navigate({ to: "/prospects/$id", params: { id: p.id } }) },
+                          { label: "Voir le détail", onSelect: () => navigate({ to: "/prospects/$id", params: { id: p.id } }) },
                           { label: "Modifier", onSelect: () => setEdition(p) },
                           { label: "Créer un devis", onSelect: () => navigate({ to: "/devis", search: { nouveau: "1" } }) },
                           { label: "Créer une réservation", onSelect: () => navigate({ to: "/reservations", search: { nouveau: "1" } }) },
