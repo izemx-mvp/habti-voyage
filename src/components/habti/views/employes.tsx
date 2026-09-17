@@ -21,8 +21,6 @@ export function EmployesView() {
   const [dispo, setDispo] = useState("Tous");
   const [creation, setCreation] = useState(false);
   const [edition, setEdition] = useState<Employe | null>(null);
-  const [profil, setProfil] = useState<Employe | null>(null);
-  const [onglet, setOnglet] = useState<"infos" | "planning" | "missions">("infos");
 
   const liste = useMemo(() => employes.filter((e) => {
     if (q && !`${e.nom} ${e.role} ${e.specialites.join(" ")}`.toLowerCase().includes(q.toLowerCase())) return false;
@@ -75,9 +73,9 @@ export function EmployesView() {
                 <Progress value={e.charge} />
               </div>
               <div className="card-actions">
-                <Button variant="outline" size="sm" onClick={() => { setProfil(e); setOnglet("infos"); }}>Voir le profil</Button>
+                <Button variant="outline" size="sm" onClick={() => navigate({ to: "/employes/$id", params: { id: e.id } })}>Voir le profil</Button>
                 <Button variant="outline" size="sm" onClick={() => setEdition(e)}>Modifier</Button>
-                <Button size="sm" onClick={() => navigate({ to: "/missions", search: { nouveau: "1" } })}>Affecter</Button>
+                <Button size="sm" onClick={() => navigate({ to: "/operations", search: { nouveau: "1" } })}>Affecter</Button>
               </div>
             </Panel>
           ))}
@@ -91,52 +89,6 @@ export function EmployesView() {
         <EmployeFields employe={edition ?? undefined} />
       </FormModal>
 
-      {profil && (
-        <div className="drawer-backdrop" onMouseDown={() => setProfil(null)}>
-          <aside className="detail-drawer" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-label={`Profil de ${profil.nom}`}>
-            <div className="drawer-head">
-              <div>
-                <Avatar><AvatarFallback>{profil.initiales}</AvatarFallback></Avatar>
-                <div><h2>{profil.nom}</h2><p>{profil.role} · {profil.ville}</p></div>
-              </div>
-              <Button variant="ghost" size="icon" onClick={() => setProfil(null)} aria-label="Fermer">×</Button>
-            </div>
-            <div className="drawer-tabs">
-              {([["infos", "Informations"], ["planning", "Planning"], ["missions", "Missions & historique"]] as const).map(([id, label]) => (
-                <button key={id} className={onglet === id ? "active" : ""} onClick={() => setOnglet(id)}>{label}</button>
-              ))}
-            </div>
-            {onglet === "infos" && (
-              <div className="data-grid">
-                <div><span>Disponibilité</span><b>{profil.disponibilite}</b></div>
-                <div><span>Ville</span><b>{profil.ville}</b></div>
-                <div><span>Spécialités</span><b>{profil.specialites.join(", ") || "—"}</b></div>
-                <div><span>Charge</span><b>{profil.charge} %</b></div>
-              </div>
-            )}
-            {onglet === "planning" && (
-              <div className="week-planning">
-                {JOURS.map((j, i) => (
-                  <div key={j}><span>{j}</span><b>{i < 5 ? "09:00 – 18:00" : i === 5 ? "Sur mission" : "Repos"}</b></div>
-                ))}
-              </div>
-            )}
-            {onglet === "missions" && (
-              <div className="mini-timeline">
-                {missions.filter((m) => m.employes.includes(profil.nom)).map((m) => (
-                  <p key={m.id}><i />{m.titre} <span>{dateFr(m.date)}</span></p>
-                ))}
-                {missions.filter((m) => m.employes.includes(profil.nom)).length === 0 && <p className="muted-line">Aucune mission affectée pour le moment.</p>}
-              </div>
-            )}
-            <div className="drawer-actions">
-              <Button variant="outline" onClick={() => { setEdition(profil); setProfil(null); }}>Modifier</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/planning" })}>Voir le planning</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/missions", search: { nouveau: "1" } })}>Affecter à une mission</Button>
-            </div>
-          </aside>
-        </div>
-      )}
 
       <Panel>
         <PanelTitle title="Vue de charge hebdomadaire" subtitle="Répartition du travail sur l'équipe" />

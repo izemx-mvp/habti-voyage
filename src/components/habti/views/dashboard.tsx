@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import {
-  ArrowRight, BadgeCheck, Bot, CalendarDays, Clock3, FileText, MapPin, Plus, Sparkle, Target, TrendingUp, WalletCards, BookOpen,
+  ArrowRight, BadgeCheck, Bot, CalendarDays, Clock3, FileText, MapPin, Plus, Sparkle, Target, TrendingUp, WalletCards, BookOpen, Megaphone,
 } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +14,7 @@ const TONES = ["green", "gold", "blue", "pink"];
 
 export function DashboardView() {
   const navigate = useNavigate();
-  const { prospects, reservations, devis, paiements, missions, prestations } = useHabti();
+  const { prospects, reservations, devis, paiements, missions, prestations, tickets, socialPosts, campagnes } = useHabti();
 
   const nouveaux = prospects.filter((p) => p.statut === "Nouveau").length;
   const qualifies = prospects.filter((p) => p.statut === "Qualifié").length;
@@ -85,6 +85,13 @@ export function DashboardView() {
         </Panel>
       </section>
 
+      <section className="metrics-grid metrics-4">
+        <Metric label="Opérations du jour" value={String(missionsJour.length)} icon={Clock3} onClick={() => navigate({ to: "/operations" })} />
+        <Metric label="Devis à traiter" value={String(devisEnAttente)} icon={FileText} onClick={() => navigate({ to: "/devis", search: { statut: "À valider" } })} />
+        <Metric label="Conversations support" value={String(tickets.filter((t) => t.statut !== "Résolu" && t.statut !== "Fermé").length)} icon={Bot} onClick={() => navigate({ to: "/agent-service-client" })} />
+        <Metric label="Publications planifiées" value={String(socialPosts.filter((p) => p.statut === "Planifié").length)} icon={Sparkle} tone="gold" onClick={() => navigate({ to: "/agent-community-manager" })} />
+      </section>
+
       <section className="lower-grid">
         <Panel>
           <PanelTitle title="Le rythme du jour" subtitle="Activités, arrivées et relais d'équipe"
@@ -101,7 +108,7 @@ export function DashboardView() {
                 <i className={TONES[i % TONES.length]} />
                 <div><b>{r.prestation}</b><span>{r.participants} participants · {r.employe}</span></div>
                 <Button variant="ghost" size="icon" aria-label="Voir la réservation"
-                  onClick={() => navigate({ to: "/reservations", search: { id: r.id } })}><ArrowRight /></Button>
+                  onClick={() => navigate({ to: "/reservations/$id", params: { id: r.id } })}><ArrowRight /></Button>
               </div>
             ))}
             {missionsJour.map((m) => (
@@ -110,7 +117,7 @@ export function DashboardView() {
                 <i className="blue" />
                 <div><b>{m.titre}</b><span>Mission · {m.employes.join(", ") || "Non affectée"}</span></div>
                 <Button variant="ghost" size="icon" aria-label="Voir la mission"
-                  onClick={() => navigate({ to: "/missions", search: { id: m.id } })}><ArrowRight /></Button>
+                  onClick={() => navigate({ to: "/operations/$id", params: { id: m.id } })}><ArrowRight /></Button>
               </div>
             ))}
           </div>
@@ -138,8 +145,8 @@ export function DashboardView() {
               { icon: Plus, t: "Nouveau prospect", s: "Capter une opportunité", to: "/prospects" as const },
               { icon: CalendarDays, t: "Nouvelle réservation", s: "Réserver une expérience", to: "/reservations" as const },
               { icon: FileText, t: "Nouveau devis", s: "Construire une offre", to: "/devis" as const },
-              { icon: Sparkle, t: "Nouveau client", s: "Ajouter au portefeuille", to: "/clients" as const },
-              { icon: MapPin, t: "Nouvelle activité", s: "Enrichir le catalogue", to: "/catalogue" as const },
+              { icon: Sparkle, t: "Nouvelle publication", s: "Préparer les réseaux", to: "/agent-community-manager" as const },
+              { icon: Megaphone, t: "Nouvelle campagne", s: "Activer une audience", to: "/campagnes" as const },
             ].map(({ icon: Icon, t, s, to }) => (
               <button key={t} onClick={() => navigate({ to, search: { nouveau: "1" } })}>
                 <span><Icon /></span>

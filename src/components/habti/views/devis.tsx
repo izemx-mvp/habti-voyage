@@ -54,7 +54,7 @@ export function DevisView() {
               <thead><tr><th>Référence</th><th>Client</th><th>Montant TTC</th><th>Statut</th><th>Validité</th><th /></tr></thead>
               <tbody>
                 {liste.map((d) => (
-                  <tr key={d.id} onClick={() => setApercu(d)}>
+                  <tr key={d.id} onClick={() => navigate({ to: "/devis/$id", params: { id: d.id } })}>
                     <td><b>{d.reference}</b></td>
                     <td>{d.client}</td>
                     <td><b>{euro(totalDevis(d).ttc)}</b></td>
@@ -62,7 +62,7 @@ export function DevisView() {
                     <td>{dateFr(d.validite)}</td>
                     <td>
                       <RowMenu actions={[
-                        { label: "Prévisualiser", onSelect: () => setApercu(d) },
+                        { label: "Voir la fiche", onSelect: () => navigate({ to: "/devis/$id", params: { id: d.id } }) },
                         { label: "Envoyer", onSelect: () => { updateDevis(d.id, { statut: "Envoyé" }); notify("Devis envoyé au client."); } },
                         { label: "Télécharger le PDF", onSelect: () => { setApercu(d); notify("Aperçu PDF prêt à imprimer."); } },
                         { label: "Dupliquer", onSelect: () => { addDevis({ ...d, id: newId("D"), reference: `DV-2026-${Math.floor(Math.random() * 900 + 100)}`, statut: "Brouillon" }); notify("Devis dupliqué."); } },

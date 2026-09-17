@@ -7,7 +7,7 @@ import {
   ActiveChips, EmptyState, Field, FilterSelect, FormModal, Metric, Panel, RowMenu, SelectInput, TextInput,
 } from "@/components/habti/ui-bits";
 import { useHabti } from "@/lib/habti-store";
-import { VILLES, euro, newId, type Client } from "@/lib/habti-data";
+import { VILLES, euro, newId } from "@/lib/habti-data";
 
 const SEGMENTS = ["Particulier", "Entreprise", "Agence partenaire"] as const;
 
@@ -19,7 +19,6 @@ export function ClientsView() {
   const [ville, setVille] = useState("Tous");
   const [segment, setSegment] = useState("Tous");
   const [creation, setCreation] = useState(search.nouveau === "1");
-  const [detail, setDetail] = useState<Client | null>(null);
 
   const liste = useMemo(() => clients.filter((c) => {
     if (q && !`${c.nom} ${c.email} ${c.ville}`.toLowerCase().includes(q.toLowerCase())) return false;
@@ -65,7 +64,7 @@ export function ClientsView() {
               </thead>
               <tbody>
                 {liste.map((c) => (
-                  <tr key={c.id} onClick={() => setDetail(c)}>
+                  <tr key={c.id} onClick={() => navigate({ to: "/clients/$id", params: { id: c.id } })}>
                     <td>
                       <Avatar><AvatarFallback>{c.nom.slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
                       <div><b>{c.nom}</b><span>{c.ville} · {c.email}</span></div>
@@ -76,7 +75,7 @@ export function ClientsView() {
                     <td>{c.depuis}</td>
                     <td>
                       <RowMenu actions={[
-                        { label: "Voir les détails", onSelect: () => setDetail(c) },
+                        { label: "Voir les détails", onSelect: () => navigate({ to: "/clients/$id", params: { id: c.id } }) },
                         { label: "Nouvelle réservation", onSelect: () => navigate({ to: "/reservations", search: { nouveau: "1" } }) },
                         { label: "Créer un devis", onSelect: () => navigate({ to: "/devis", search: { nouveau: "1" } }) },
                         { label: "Voir les factures", onSelect: () => navigate({ to: "/factures" }) },
@@ -109,31 +108,6 @@ export function ClientsView() {
         <Field label="Téléphone"><TextInput name="telephone" required placeholder="+212 5 22 00 00 00" /></Field>
       </FormModal>
 
-      {detail && (
-        <div className="drawer-backdrop" onMouseDown={() => setDetail(null)}>
-          <aside className="detail-drawer" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-label={`Fiche client ${detail.nom}`}>
-            <div className="drawer-head">
-              <div>
-                <Avatar><AvatarFallback>{detail.nom.slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
-                <div><h2>{detail.nom}</h2><p>{detail.segment} · {detail.ville}</p></div>
-              </div>
-              <Button variant="ghost" size="icon" onClick={() => setDetail(null)} aria-label="Fermer">×</Button>
-            </div>
-            <div className="data-grid">
-              <div><span>E-mail</span><b>{detail.email}</b></div>
-              <div><span>Téléphone</span><b>{detail.telephone}</b></div>
-              <div><span>Réservations</span><b>{detail.reservations}</b></div>
-              <div><span>Chiffre d'affaires</span><b>{euro(detail.chiffreAffaires)}</b></div>
-            </div>
-            <div className="drawer-actions">
-              <Button variant="outline" onClick={() => navigate({ to: "/reservations", search: { nouveau: "1" } })}>Nouvelle réservation</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/devis", search: { nouveau: "1" } })}>Créer un devis</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/factures" })}>Voir les factures</Button>
-              <Button variant="outline" onClick={() => navigate({ to: "/service-client" })}>Ouvrir une conversation</Button>
-            </div>
-          </aside>
-        </div>
-      )}
     </div>
   );
 }

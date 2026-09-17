@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { ArrowRight, Clock3, MapPin, Plus, Search, Sparkle, Target, X } from "lucide-react";
+import { Clock3, MapPin, Plus, Search, Sparkle, Target } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
   ActiveChips, ConfirmDialog, EmptyState, Field, FilterSelect, FormModal, Metric, Pager, Panel,
-  PanelTitle, RowMenu, SelectInput, StatutBadge, TextArea, TextInput,
+  RowMenu, SelectInput, StatutBadge, TextArea, TextInput,
 } from "@/components/habti/ui-bits";
 import { useHabti } from "@/lib/habti-store";
 import {
-  MOODS, SOURCES, STATUTS_PROSPECT, TYPES_DEMANDE, VILLES, dateFr, euro, newId,
+  MOODS, SOURCES, STATUTS_PROSPECT, TYPES_DEMANDE, VILLES, euro, newId,
   type Prospect, type StatutProspect,
 } from "@/lib/habti-data";
 
@@ -20,7 +20,7 @@ const BUDGETS = ["< 5 000 €", "5 000 – 15 000 €", "> 15 000 €"];
 export function ProspectsView() {
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { statut?: string; nouveau?: string; id?: string };
-  const { prospects, addProspect, updateProspect, addProspectNote, addClient, notify } = useHabti();
+  const { prospects, addProspect, updateProspect, notify } = useHabti();
 
   const [q, setQ] = useState("");
   const [ville, setVille] = useState("Tous");
@@ -32,7 +32,6 @@ export function ProspectsView() {
   const [page, setPage] = useState(1);
   const [creation, setCreation] = useState(search.nouveau === "1");
   const [edition, setEdition] = useState<Prospect | null>(null);
-  const [selection, setSelection] = useState<Prospect | null>(prospects.find((p) => p.id === search.id) ?? null);
   const [archive, setArchive] = useState<Prospect | null>(null);
 
   const filtres = useMemo(() => {
@@ -93,7 +92,6 @@ export function ProspectsView() {
     };
     if (existant) {
       updateProspect(existant.id, base);
-      setSelection((s) => (s && s.id === existant.id ? { ...s, ...base } : s));
       setEdition(null);
       notify("Modification enregistrée.");
       return;
@@ -107,7 +105,7 @@ export function ProspectsView() {
     setCreation(false);
     reset();
     setTri({ col: "score", asc: false });
-    setSelection(nouveau);
+    navigate({ to: "/prospects/$id", params: { id: nouveau.id } });
     notify("Prospect créé avec succès.");
   };
 
@@ -167,7 +165,7 @@ export function ProspectsView() {
                 </thead>
                 <tbody>
                   {visibles.map((p) => (
-                    <tr key={p.id} onClick={() => setSelection(p)}>
+                    <tr key={p.id} onClick={() => navigate({ to: "/prospects/$id", params: { id: p.id } })}>
                       <td>
                         <Avatar><AvatarFallback>{p.prenom[0]}{p.nom[0]}</AvatarFallback></Avatar>
                         <div><b>{p.prenom} {p.nom}</b><span><MapPin />{p.ville}</span></div>
@@ -179,7 +177,7 @@ export function ProspectsView() {
                       <td>{p.source}</td>
                       <td>
                         <RowMenu actions={[
-                          { label: "Voir les détails", onSelect: () => setSelection(p) },
+                          { label: "Voir les détails", onSelect: () => navigate({ to: "/prospects/$id", params: { id: p.id } }) },
                           { label: "Modifier", onSelect: () => setEdition(p) },
                           { label: "Créer un devis", onSelect: () => navigate({ to: "/devis", search: { nouveau: "1" } }) },
                           { label: "Créer une réservation", onSelect: () => navigate({ to: "/reservations", search: { nouveau: "1" } }) },
@@ -214,21 +212,6 @@ export function ProspectsView() {
         confirmLabel="Confirmer l'archivage"
         onConfirm={() => { if (archive) { updateProspect(archive.id, { statut: "Perdu" }); notify("Prospect archivé."); } setArchive(null); }} />
 
-      {selection && (
-        <ProspectDrawer
-          prospect={prospects.find((p) => p.id === selection.id) ?? selection}
-          onClose={() => setSelection(null)}
-          onEdit={(p) => setEdition(p)}
-          onNote={(texte) => { addProspectNote(selection.id, texte); notify("Note ajoutée."); }}
-          onStatut={(s) => { updateProspect(selection.id, { statut: s }); notify("Statut mis à jour."); }}
-          onClient={(p) => {
-            updateProspect(p.id, { statut: "Client" });
-            addClient({ id: newId("C"), nom: `${p.prenom} ${p.nom}`, ville: p.ville, email: p.email, telephone: p.telephone, segment: "Particulier", reservations: 0, chiffreAffaires: 0, depuis: "2026" });
-            notify("Prospect converti en client.");
-          }}
-          onNavigate={(to) => navigate({ to, search: { nouveau: "1" } })}
-        />
-      )}
     </div>
   );
 }
@@ -251,92 +234,5 @@ function ProspectFields({ prospect }: { prospect?: Prospect | undefined }) {
       <Field label="Activités souhaitées" full><TextInput name="activites" defaultValue={prospect?.activites} placeholder="Excursion désert, Hammam & Spa…" /></Field>
       <Field label="Notes" full><TextArea name="notes" placeholder="Contexte, contraintes, préférences…" /></Field>
     </>
-  );
-}
-
-function ProspectDrawer({ prospect, onClose, onEdit, onNote, onStatut, onClient, onNavigate }: {
-  prospect: Prospect; onClose: () => void; onEdit: (p: Prospect) => void; onNote: (t: string) => void;
-  onStatut: (s: StatutProspect) => void; onClient: (p: Prospect) => void;
-  onNavigate: (to: "/devis" | "/reservations") => void;
-}) {
-  const [onglet, setOnglet] = useState<"apercu" | "conversation" | "historique">("apercu");
-  const [note, setNote] = useState("");
-
-  return (
-    <div className="drawer-backdrop" onMouseDown={onClose}>
-      <aside className="detail-drawer" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-label={`Fiche prospect ${prospect.prenom} ${prospect.nom}`}>
-        <div className="drawer-head">
-          <div>
-            <Avatar><AvatarFallback>{prospect.prenom[0]}{prospect.nom[0]}</AvatarFallback></Avatar>
-            <div>
-              <h2>{prospect.prenom} {prospect.nom}</h2>
-              <p>{prospect.ville} · {prospect.telephone}</p>
-            </div>
-          </div>
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fermer"><X /></Button>
-        </div>
-
-        <div className="qualification">
-          <div><span>Score de qualification</span><b>{prospect.score}<small>/100</small></b></div>
-          <Progress value={prospect.score} />
-          <p><Sparkle />Profil adapté aux expériences privées haut de gamme</p>
-        </div>
-
-        <div className="drawer-tabs">
-          {([["apercu", "Aperçu"], ["conversation", "Conversation"], ["historique", "Historique & notes"]] as const).map(([id, label]) => (
-            <button key={id} className={onglet === id ? "active" : ""} onClick={() => setOnglet(id)}>{label}</button>
-          ))}
-        </div>
-
-        {onglet === "apercu" && (
-          <>
-            <div className="data-grid">
-              <div><span>Budget</span><b>{euro(prospect.budget)}</b></div>
-              <div><span>Date souhaitée</span><b>{dateFr(prospect.dateSouhaitee)}</b></div>
-              <div><span>Participants</span><b>{prospect.personnes}</b></div>
-              <div><span>Mood</span><b>{prospect.mood}</b></div>
-              <div><span>Type de demande</span><b>{prospect.typeDemande}</b></div>
-              <div><span>Conseiller</span><b>{prospect.conseiller}</b></div>
-              <div><span>E-mail</span><b>{prospect.email}</b></div>
-              <div><span>Statut</span><b>{prospect.statut}</b></div>
-            </div>
-            <div className="next-action">
-              <div><Clock3 /><b>Prochaine action recommandée</b></div>
-              <p>Envoyer une proposition {prospect.ville} + Agafay avant 17 h 00 aujourd'hui.</p>
-              <Button onClick={() => onNavigate("/devis")}>Créer un devis<ArrowRight /></Button>
-            </div>
-            <div className="drawer-actions">
-              <Button variant="outline" onClick={() => onEdit(prospect)}>Modifier</Button>
-              <Button variant="outline" onClick={() => onNavigate("/reservations")}>Créer une réservation</Button>
-              <Button variant="outline" onClick={() => onStatut("En attente")}>Relancer</Button>
-              <Button variant="outline" onClick={() => onStatut("Qualifié")}>Affecter à un conseiller</Button>
-              <Button variant="outline" onClick={() => onClient(prospect)}>Marquer comme client</Button>
-              <Button variant="outline" onClick={() => onStatut("Perdu")}>Archiver</Button>
-            </div>
-          </>
-        )}
-
-        {onglet === "conversation" && (
-          <div className="drawer-conversation">
-            <p className="ia-bubble"><Sparkle />L'IA a qualifié la demande : {prospect.typeDemande.toLowerCase()} à {prospect.ville} pour {prospect.personnes} personnes, budget {euro(prospect.budget)}, ambiance « {prospect.mood} ».</p>
-            <p className="client-bubble">{prospect.activites || "Aucune activité précisée pour le moment."}</p>
-            <Button variant="outline" onClick={() => onNavigate("/devis")}>Poursuivre avec l'agent IA<ArrowRight /></Button>
-          </div>
-        )}
-
-        {onglet === "historique" && (
-          <>
-            <form className="note-form" onSubmit={(e) => { e.preventDefault(); if (!note.trim()) return; onNote(note.trim()); setNote(""); }}>
-              <input className="habti-input" placeholder="Ajouter une note interne…" value={note} onChange={(e) => setNote(e.currentTarget.value)} />
-              <Button type="submit" disabled={!note.trim()}>Ajouter</Button>
-            </form>
-            <div className="mini-timeline">
-              {prospect.notes.map((n) => <p key={n.id}><i />{n.texte} <span>{n.date}</span></p>)}
-              {prospect.historique.map((h, i) => <p key={`${h.date}-${i}`}><i />{h.texte} <span>{h.date}</span></p>)}
-            </div>
-          </>
-        )}
-      </aside>
-    </div>
   );
 }
