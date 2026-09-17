@@ -35,17 +35,25 @@ import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as ServiceClientRouteImport } from './routes/service-client'
 import { Route as AiThreadIdRouteImport } from './routes/ai.$threadId'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as CampagnesIndexRouteImport } from './routes/campagnes.index'
 import { Route as CampagnesIdRouteImport } from './routes/campagnes.$id'
+import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsIdRouteImport } from './routes/clients.$id'
 import { Route as CommunityManagerIndexRouteImport } from './routes/community-manager.index'
 import { Route as CommunityManagerIdeesRouteImport } from './routes/community-manager.idees'
 import { Route as CommunityManagerParametresRouteImport } from './routes/community-manager.parametres'
 import { Route as CommunityManagerPlanningRouteImport } from './routes/community-manager.planning'
+import { Route as DevisIndexRouteImport } from './routes/devis.index'
 import { Route as DevisIdRouteImport } from './routes/devis.$id'
+import { Route as EmployesIndexRouteImport } from './routes/employes.index'
 import { Route as EmployesIdRouteImport } from './routes/employes.$id'
+import { Route as OperationsIndexRouteImport } from './routes/operations.index'
 import { Route as OperationsIdRouteImport } from './routes/operations.$id'
+import { Route as ProspectsIndexRouteImport } from './routes/prospects.index'
 import { Route as ProspectsIdRouteImport } from './routes/prospects.$id'
+import { Route as ReservationsIndexRouteImport } from './routes/reservations.index'
 import { Route as ReservationsIdRouteImport } from './routes/reservations.$id'
+import { Route as CommunityManagerIdeesIndexRouteImport } from './routes/community-manager.idees.index'
 import { Route as CommunityManagerIdeesIdRouteImport } from './routes/community-manager.idees.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -178,10 +186,20 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampagnesIndexRoute = CampagnesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CampagnesRoute,
+} as any)
 const CampagnesIdRoute = CampagnesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => CampagnesRoute,
+} as any)
+const ClientsIndexRoute = ClientsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ClientsRoute,
 } as any)
 const ClientsIdRoute = ClientsIdRouteImport.update({
   id: '/$id',
@@ -210,31 +228,62 @@ const CommunityManagerPlanningRoute =
     path: '/community-manager/planning',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DevisIndexRoute = DevisIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DevisRoute,
+} as any)
 const DevisIdRoute = DevisIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => DevisRoute,
+} as any)
+const EmployesIndexRoute = EmployesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EmployesRoute,
 } as any)
 const EmployesIdRoute = EmployesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => EmployesRoute,
 } as any)
+const OperationsIndexRoute = OperationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OperationsRoute,
+} as any)
 const OperationsIdRoute = OperationsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => OperationsRoute,
+} as any)
+const ProspectsIndexRoute = ProspectsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProspectsRoute,
 } as any)
 const ProspectsIdRoute = ProspectsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => ProspectsRoute,
 } as any)
+const ReservationsIndexRoute = ReservationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ReservationsRoute,
+} as any)
 const ReservationsIdRoute = ReservationsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => ReservationsRoute,
 } as any)
+const CommunityManagerIdeesIndexRoute =
+  CommunityManagerIdeesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => CommunityManagerIdeesRoute,
+  } as any)
 const CommunityManagerIdeesIdRoute = CommunityManagerIdeesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -278,39 +327,39 @@ export interface FileRoutesByFullPath {
   '/operations/$id': typeof OperationsIdRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/reservations/$id': typeof ReservationsIdRoute
+  '/campagnes/': typeof CampagnesIndexRoute
+  '/clients/': typeof ClientsIndexRoute
   '/community-manager/': typeof CommunityManagerIndexRoute
+  '/devis/': typeof DevisIndexRoute
+  '/employes/': typeof EmployesIndexRoute
+  '/operations/': typeof OperationsIndexRoute
+  '/prospects/': typeof ProspectsIndexRoute
+  '/reservations/': typeof ReservationsIndexRoute
   '/community-manager/idees/$id': typeof CommunityManagerIdeesIdRoute
+  '/community-manager/idees/': typeof CommunityManagerIdeesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agent-community-manager': typeof AgentCommunityManagerRoute
   '/agent-prospection': typeof AgentProspectionRoute
   '/agent-service-client': typeof AgentServiceClientRoute
-  '/campagnes': typeof CampagnesRouteWithChildren
   '/catalogue': typeof CatalogueRoute
-  '/clients': typeof ClientsRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/conseiller-ia': typeof ConseillerIaRoute
   '/dashboard': typeof DashboardRoute
-  '/devis': typeof DevisRouteWithChildren
-  '/employes': typeof EmployesRouteWithChildren
   '/evenements': typeof EvenementsRoute
   '/factures': typeof FacturesRoute
   '/missions': typeof MissionsRoute
-  '/operations': typeof OperationsRouteWithChildren
   '/paiements': typeof PaiementsRoute
   '/parametres': typeof ParametresRoute
   '/parametres-compte': typeof ParametresCompteRoute
   '/planning': typeof PlanningRoute
-  '/prospects': typeof ProspectsRouteWithChildren
   '/rapports': typeof RapportsRoute
-  '/reservations': typeof ReservationsRouteWithChildren
   '/service-client': typeof ServiceClientRoute
   '/ai/$threadId': typeof AiThreadIdRoute
   '/api/chat': typeof ApiChatRoute
   '/campagnes/$id': typeof CampagnesIdRoute
   '/clients/$id': typeof ClientsIdRoute
-  '/community-manager/idees': typeof CommunityManagerIdeesRouteWithChildren
   '/community-manager/parametres': typeof CommunityManagerParametresRoute
   '/community-manager/planning': typeof CommunityManagerPlanningRoute
   '/devis/$id': typeof DevisIdRoute
@@ -318,8 +367,16 @@ export interface FileRoutesByTo {
   '/operations/$id': typeof OperationsIdRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/reservations/$id': typeof ReservationsIdRoute
+  '/campagnes': typeof CampagnesIndexRoute
+  '/clients': typeof ClientsIndexRoute
   '/community-manager': typeof CommunityManagerIndexRoute
+  '/devis': typeof DevisIndexRoute
+  '/employes': typeof EmployesIndexRoute
+  '/operations': typeof OperationsIndexRoute
+  '/prospects': typeof ProspectsIndexRoute
+  '/reservations': typeof ReservationsIndexRoute
   '/community-manager/idees/$id': typeof CommunityManagerIdeesIdRoute
+  '/community-manager/idees': typeof CommunityManagerIdeesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -359,8 +416,16 @@ export interface FileRoutesById {
   '/operations/$id': typeof OperationsIdRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/reservations/$id': typeof ReservationsIdRoute
+  '/campagnes/': typeof CampagnesIndexRoute
+  '/clients/': typeof ClientsIndexRoute
   '/community-manager/': typeof CommunityManagerIndexRoute
+  '/devis/': typeof DevisIndexRoute
+  '/employes/': typeof EmployesIndexRoute
+  '/operations/': typeof OperationsIndexRoute
+  '/prospects/': typeof ProspectsIndexRoute
+  '/reservations/': typeof ReservationsIndexRoute
   '/community-manager/idees/$id': typeof CommunityManagerIdeesIdRoute
+  '/community-manager/idees/': typeof CommunityManagerIdeesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -401,39 +466,39 @@ export interface FileRouteTypes {
     | '/operations/$id'
     | '/prospects/$id'
     | '/reservations/$id'
+    | '/campagnes/'
+    | '/clients/'
     | '/community-manager/'
+    | '/devis/'
+    | '/employes/'
+    | '/operations/'
+    | '/prospects/'
+    | '/reservations/'
     | '/community-manager/idees/$id'
+    | '/community-manager/idees/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agent-community-manager'
     | '/agent-prospection'
     | '/agent-service-client'
-    | '/campagnes'
     | '/catalogue'
-    | '/clients'
     | '/connexion'
     | '/conseiller-ia'
     | '/dashboard'
-    | '/devis'
-    | '/employes'
     | '/evenements'
     | '/factures'
     | '/missions'
-    | '/operations'
     | '/paiements'
     | '/parametres'
     | '/parametres-compte'
     | '/planning'
-    | '/prospects'
     | '/rapports'
-    | '/reservations'
     | '/service-client'
     | '/ai/$threadId'
     | '/api/chat'
     | '/campagnes/$id'
     | '/clients/$id'
-    | '/community-manager/idees'
     | '/community-manager/parametres'
     | '/community-manager/planning'
     | '/devis/$id'
@@ -441,8 +506,16 @@ export interface FileRouteTypes {
     | '/operations/$id'
     | '/prospects/$id'
     | '/reservations/$id'
+    | '/campagnes'
+    | '/clients'
     | '/community-manager'
+    | '/devis'
+    | '/employes'
+    | '/operations'
+    | '/prospects'
+    | '/reservations'
     | '/community-manager/idees/$id'
+    | '/community-manager/idees'
   id:
     | '__root__'
     | '/'
@@ -481,8 +554,16 @@ export interface FileRouteTypes {
     | '/operations/$id'
     | '/prospects/$id'
     | '/reservations/$id'
+    | '/campagnes/'
+    | '/clients/'
     | '/community-manager/'
+    | '/devis/'
+    | '/employes/'
+    | '/operations/'
+    | '/prospects/'
+    | '/reservations/'
     | '/community-manager/idees/$id'
+    | '/community-manager/idees/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -702,12 +783,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campagnes/': {
+      id: '/campagnes/'
+      path: '/'
+      fullPath: '/campagnes/'
+      preLoaderRoute: typeof CampagnesIndexRouteImport
+      parentRoute: typeof CampagnesRoute
+    }
     '/campagnes/$id': {
       id: '/campagnes/$id'
       path: '/$id'
       fullPath: '/campagnes/$id'
       preLoaderRoute: typeof CampagnesIdRouteImport
       parentRoute: typeof CampagnesRoute
+    }
+    '/clients/': {
+      id: '/clients/'
+      path: '/'
+      fullPath: '/clients/'
+      preLoaderRoute: typeof ClientsIndexRouteImport
+      parentRoute: typeof ClientsRoute
     }
     '/clients/$id': {
       id: '/clients/$id'
@@ -744,12 +839,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityManagerPlanningRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/devis/': {
+      id: '/devis/'
+      path: '/'
+      fullPath: '/devis/'
+      preLoaderRoute: typeof DevisIndexRouteImport
+      parentRoute: typeof DevisRoute
+    }
     '/devis/$id': {
       id: '/devis/$id'
       path: '/$id'
       fullPath: '/devis/$id'
       preLoaderRoute: typeof DevisIdRouteImport
       parentRoute: typeof DevisRoute
+    }
+    '/employes/': {
+      id: '/employes/'
+      path: '/'
+      fullPath: '/employes/'
+      preLoaderRoute: typeof EmployesIndexRouteImport
+      parentRoute: typeof EmployesRoute
     }
     '/employes/$id': {
       id: '/employes/$id'
@@ -758,12 +867,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmployesIdRouteImport
       parentRoute: typeof EmployesRoute
     }
+    '/operations/': {
+      id: '/operations/'
+      path: '/'
+      fullPath: '/operations/'
+      preLoaderRoute: typeof OperationsIndexRouteImport
+      parentRoute: typeof OperationsRoute
+    }
     '/operations/$id': {
       id: '/operations/$id'
       path: '/$id'
       fullPath: '/operations/$id'
       preLoaderRoute: typeof OperationsIdRouteImport
       parentRoute: typeof OperationsRoute
+    }
+    '/prospects/': {
+      id: '/prospects/'
+      path: '/'
+      fullPath: '/prospects/'
+      preLoaderRoute: typeof ProspectsIndexRouteImport
+      parentRoute: typeof ProspectsRoute
     }
     '/prospects/$id': {
       id: '/prospects/$id'
@@ -772,12 +895,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProspectsIdRouteImport
       parentRoute: typeof ProspectsRoute
     }
+    '/reservations/': {
+      id: '/reservations/'
+      path: '/'
+      fullPath: '/reservations/'
+      preLoaderRoute: typeof ReservationsIndexRouteImport
+      parentRoute: typeof ReservationsRoute
+    }
     '/reservations/$id': {
       id: '/reservations/$id'
       path: '/$id'
       fullPath: '/reservations/$id'
       preLoaderRoute: typeof ReservationsIdRouteImport
       parentRoute: typeof ReservationsRoute
+    }
+    '/community-manager/idees/': {
+      id: '/community-manager/idees/'
+      path: '/'
+      fullPath: '/community-manager/idees/'
+      preLoaderRoute: typeof CommunityManagerIdeesIndexRouteImport
+      parentRoute: typeof CommunityManagerIdeesRoute
     }
     '/community-manager/idees/$id': {
       id: '/community-manager/idees/$id'
@@ -791,10 +928,12 @@ declare module '@tanstack/react-router' {
 
 interface CampagnesRouteChildren {
   CampagnesIdRoute: typeof CampagnesIdRoute
+  CampagnesIndexRoute: typeof CampagnesIndexRoute
 }
 
 const CampagnesRouteChildren: CampagnesRouteChildren = {
   CampagnesIdRoute: CampagnesIdRoute,
+  CampagnesIndexRoute: CampagnesIndexRoute,
 }
 
 const CampagnesRouteWithChildren = CampagnesRoute._addFileChildren(
@@ -803,10 +942,12 @@ const CampagnesRouteWithChildren = CampagnesRoute._addFileChildren(
 
 interface ClientsRouteChildren {
   ClientsIdRoute: typeof ClientsIdRoute
+  ClientsIndexRoute: typeof ClientsIndexRoute
 }
 
 const ClientsRouteChildren: ClientsRouteChildren = {
   ClientsIdRoute: ClientsIdRoute,
+  ClientsIndexRoute: ClientsIndexRoute,
 }
 
 const ClientsRouteWithChildren =
@@ -814,20 +955,24 @@ const ClientsRouteWithChildren =
 
 interface DevisRouteChildren {
   DevisIdRoute: typeof DevisIdRoute
+  DevisIndexRoute: typeof DevisIndexRoute
 }
 
 const DevisRouteChildren: DevisRouteChildren = {
   DevisIdRoute: DevisIdRoute,
+  DevisIndexRoute: DevisIndexRoute,
 }
 
 const DevisRouteWithChildren = DevisRoute._addFileChildren(DevisRouteChildren)
 
 interface EmployesRouteChildren {
   EmployesIdRoute: typeof EmployesIdRoute
+  EmployesIndexRoute: typeof EmployesIndexRoute
 }
 
 const EmployesRouteChildren: EmployesRouteChildren = {
   EmployesIdRoute: EmployesIdRoute,
+  EmployesIndexRoute: EmployesIndexRoute,
 }
 
 const EmployesRouteWithChildren = EmployesRoute._addFileChildren(
@@ -836,10 +981,12 @@ const EmployesRouteWithChildren = EmployesRoute._addFileChildren(
 
 interface OperationsRouteChildren {
   OperationsIdRoute: typeof OperationsIdRoute
+  OperationsIndexRoute: typeof OperationsIndexRoute
 }
 
 const OperationsRouteChildren: OperationsRouteChildren = {
   OperationsIdRoute: OperationsIdRoute,
+  OperationsIndexRoute: OperationsIndexRoute,
 }
 
 const OperationsRouteWithChildren = OperationsRoute._addFileChildren(
@@ -848,10 +995,12 @@ const OperationsRouteWithChildren = OperationsRoute._addFileChildren(
 
 interface ProspectsRouteChildren {
   ProspectsIdRoute: typeof ProspectsIdRoute
+  ProspectsIndexRoute: typeof ProspectsIndexRoute
 }
 
 const ProspectsRouteChildren: ProspectsRouteChildren = {
   ProspectsIdRoute: ProspectsIdRoute,
+  ProspectsIndexRoute: ProspectsIndexRoute,
 }
 
 const ProspectsRouteWithChildren = ProspectsRoute._addFileChildren(
@@ -860,10 +1009,12 @@ const ProspectsRouteWithChildren = ProspectsRoute._addFileChildren(
 
 interface ReservationsRouteChildren {
   ReservationsIdRoute: typeof ReservationsIdRoute
+  ReservationsIndexRoute: typeof ReservationsIndexRoute
 }
 
 const ReservationsRouteChildren: ReservationsRouteChildren = {
   ReservationsIdRoute: ReservationsIdRoute,
+  ReservationsIndexRoute: ReservationsIndexRoute,
 }
 
 const ReservationsRouteWithChildren = ReservationsRoute._addFileChildren(
@@ -872,10 +1023,12 @@ const ReservationsRouteWithChildren = ReservationsRoute._addFileChildren(
 
 interface CommunityManagerIdeesRouteChildren {
   CommunityManagerIdeesIdRoute: typeof CommunityManagerIdeesIdRoute
+  CommunityManagerIdeesIndexRoute: typeof CommunityManagerIdeesIndexRoute
 }
 
 const CommunityManagerIdeesRouteChildren: CommunityManagerIdeesRouteChildren = {
   CommunityManagerIdeesIdRoute: CommunityManagerIdeesIdRoute,
+  CommunityManagerIdeesIndexRoute: CommunityManagerIdeesIndexRoute,
 }
 
 const CommunityManagerIdeesRouteWithChildren =
