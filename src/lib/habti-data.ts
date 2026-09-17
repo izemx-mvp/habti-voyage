@@ -17,6 +17,10 @@ export const STATUTS_TICKET = ["Nouveau", "Pris en charge par l'IA", "En attente
 export const TYPES_PAIEMENT = ["Acompte", "Paiement partiel", "Solde", "Remboursement"] as const;
 export const MODES_PAIEMENT = ["Carte bancaire", "Espèces", "Virement bancaire", "Chèque", "Paiement en ligne"] as const;
 export const CATEGORIES_PRESTATION = ["Activité", "Voyage", "Événement", "Package"] as const;
+export const PLATEFORMES_SOCIALES = ["Facebook", "Instagram", "TikTok"] as const;
+export const TYPES_CONTENU = ["Publication", "Carrousel", "Story", "Reel", "Vidéo", "Annonce", "Conseil", "Destination", "Activité", "Événement", "Offre"] as const;
+export const STATUTS_PUBLICATION = ["Brouillon", "À valider", "Validé", "Planifié", "Publié"] as const;
+export const STATUTS_CAMPAGNE = ["Brouillon", "Programmée", "En cours", "Terminée", "Annulée"] as const;
 
 export type StatutProspect = (typeof STATUTS_PROSPECT)[number];
 export type StatutReservation = (typeof STATUTS_RESERVATION)[number];
@@ -24,6 +28,8 @@ export type StatutDevis = (typeof STATUTS_DEVIS)[number];
 export type StatutPaiement = (typeof STATUTS_PAIEMENT)[number];
 export type StatutMission = (typeof STATUTS_MISSION)[number];
 export type StatutTicket = (typeof STATUTS_TICKET)[number];
+export type StatutPublication = (typeof STATUTS_PUBLICATION)[number];
+export type StatutCampagne = (typeof STATUTS_CAMPAGNE)[number];
 
 export type Note = { id: string; texte: string; date: string; auteur: string };
 
@@ -80,8 +86,21 @@ export type TicketMessage = { id: string; auteur: "client" | "habti" | "ia"; tex
 
 export type Ticket = {
   id: string; client: string; canal: string; sujet: string; statut: StatutTicket;
-  messages: TicketMessage[]; resume: string; reservation: string; paiement: string;
+  messages: TicketMessage[]; resume: string; reservation: string; paiement: string; priorite: "Haute" | "Moyenne" | "Basse"; mode: "IA" | "Humain";
 };
+
+export type SocialPost = {
+  id: string; titre: string; legende: string; hashtags: string; plateformes: string[]; type: string; theme: string;
+  date: string; heure: string; statut: StatutPublication; origine: "IA" | "Manuel"; image: string; campagne: string; cta: string; format: string;
+};
+
+export type Campagne = {
+  id: string; nom: string; canal: "WhatsApp" | "Email"; audience: string; destinataires: number; date: string;
+  statut: StatutCampagne; ouverture: number; lecture: number; creePar: string; message: string; cta: string;
+};
+
+export type FAQItem = { id: string; question: string; categorie: string; reponse: string; statut: "Active" | "Désactivée"; maj: string };
+export type KnowledgeItem = { id: string; titre: string; categorie: string; type: "Document" | "Contenu manuel"; statut: "Active" | "Désactivée"; maj: string; contenu: string };
 
 const uid = (p: string) => `${p}-${Math.random().toString(36).slice(2, 9)}`;
 export const newId = uid;
@@ -153,9 +172,33 @@ export const prestationsSeed: Prestation[] = [
 ];
 
 export const ticketsSeed: Ticket[] = [
-  { id: "T-77", client: "Sofia Martinez", canal: "WhatsApp", sujet: "Modification de la date d'excursion", statut: "Pris en charge par l'IA", reservation: "RES-2026-502", paiement: "Partiellement payé", resume: "La cliente souhaite décaler son excursion désert du 12 au 14 octobre. Disponibilité à confirmer avec le guide.", messages: [{ id: uid("m"), auteur: "client", texte: "Bonjour, serait-il possible de décaler notre excursion au 14 octobre ?", heure: "09:12" }, { id: uid("m"), auteur: "ia", texte: "Bonjour Sofia, je vérifie la disponibilité du campement pour le 14 octobre et je reviens vers vous dans quelques minutes.", heure: "09:13" }] },
-  { id: "T-78", client: "Atelier Noor", canal: "E-mail", sujet: "Facture FA-2026-091 en retard", statut: "Transféré à un conseiller", reservation: "RES-2026-503", paiement: "En retard", resume: "Le client demande un échéancier pour régler la facture en retard.", messages: [{ id: uid("m"), auteur: "client", texte: "Pouvons-nous convenir d'un paiement en deux fois pour la facture de septembre ?", heure: "11:40" }] },
-  { id: "T-79", client: "Famille Lemaire", canal: "Téléphone", sujet: "Matériel surf pour enfants", statut: "Nouveau", reservation: "RES-2026-504", paiement: "Non payé", resume: "Demande de combinaisons taille enfant pour deux participants.", messages: [{ id: uid("m"), auteur: "client", texte: "Avez-vous des combinaisons pour enfants de 8 et 10 ans ?", heure: "16:05" }] },
+  { id: "T-77", client: "Sofia Martinez", canal: "WhatsApp", sujet: "Modification de la date d'excursion", statut: "Pris en charge par l'IA", reservation: "RES-2026-502", paiement: "Partiellement payé", priorite: "Haute", mode: "IA", resume: "La cliente souhaite décaler son excursion désert du 12 au 14 octobre. Disponibilité à confirmer avec le guide.", messages: [{ id: uid("m"), auteur: "client", texte: "Bonjour, serait-il possible de décaler notre excursion au 14 octobre ?", heure: "09:12" }, { id: uid("m"), auteur: "ia", texte: "Bonjour Sofia, je vérifie la disponibilité du campement pour le 14 octobre et je reviens vers vous dans quelques minutes.", heure: "09:13" }] },
+  { id: "T-78", client: "Atelier Noor", canal: "E-mail", sujet: "Facture FA-2026-091 en retard", statut: "Transféré à un conseiller", reservation: "RES-2026-503", paiement: "En retard", priorite: "Haute", mode: "Humain", resume: "Le client demande un échéancier pour régler la facture en retard.", messages: [{ id: uid("m"), auteur: "client", texte: "Pouvons-nous convenir d'un paiement en deux fois pour la facture de septembre ?", heure: "11:40" }] },
+  { id: "T-79", client: "Famille Lemaire", canal: "Téléphone", sujet: "Matériel surf pour enfants", statut: "Nouveau", reservation: "RES-2026-504", paiement: "Non payé", priorite: "Moyenne", mode: "IA", resume: "Demande de combinaisons taille enfant pour deux participants.", messages: [{ id: uid("m"), auteur: "client", texte: "Avez-vous des combinaisons pour enfants de 8 et 10 ans ?", heure: "16:05" }] },
+];
+
+export const socialPostsSeed: SocialPost[] = [
+  { id: "POST-401", titre: "Week-end premium à Marrakech", legende: "Un riad confidentiel, un hammam traditionnel et un dîner spectacle pour vivre Marrakech avec élégance.", hashtags: "#HabtiVoyage #Marrakech #VoyagePremium", plateformes: ["Instagram", "Facebook"], type: "Carrousel", theme: "Destination", date: "2026-09-18", heure: "18:30", statut: "Planifié", origine: "IA", image: riad, campagne: "Automne au Maroc", cta: "Demander un devis", format: "Carrousel 5 slides" },
+  { id: "POST-402", titre: "Team building dans le désert d'Agafay", legende: "Transformez votre séminaire en expérience collective mémorable : quad, défis d'équipe et dîner sous tente caïdale.", hashtags: "#TeamBuilding #Agafay #MICEMaroc", plateformes: ["Facebook"], type: "Publication", theme: "Événement", date: "2026-09-20", heure: "10:00", statut: "À valider", origine: "Manuel", image: sahara, campagne: "MICE Maroc", cta: "Planifier un appel", format: "Post image" },
+  { id: "POST-403", titre: "Lever de soleil sur les dunes", legende: "Merzouga au petit matin : silence, lumière dorée et campement privé préparé par l'équipe HABTI.", hashtags: "#Merzouga #DesertExperience #Depuis1978", plateformes: ["TikTok", "Instagram"], type: "Reel", theme: "Activité", date: "2026-09-22", heure: "07:45", statut: "Brouillon", origine: "IA", image: sahara, campagne: "Automne au Maroc", cta: "Réserver l'expérience", format: "Vidéo courte" },
+];
+
+export const campagnesSeed: Campagne[] = [
+  { id: "CAM-301", nom: "Automne au Maroc", canal: "WhatsApp", audience: "Prospects qualifiés Europe", destinataires: 186, date: "2026-09-19", statut: "Programmée", ouverture: 0, lecture: 0, creePar: "Salma Bennani", message: "Découvrez nos expériences premium à Marrakech, Merzouga et Essaouira pour octobre.", cta: "Recevoir une proposition" },
+  { id: "CAM-302", nom: "MICE Maroc", canal: "Email", audience: "Entreprises Casablanca & Rabat", destinataires: 94, date: "2026-09-21", statut: "En cours", ouverture: 42, lecture: 31, creePar: "Karim Naji", message: "Une sélection d'expériences corporate pour vos séminaires et team buildings.", cta: "Planifier un rendez-vous" },
+  { id: "CAM-303", nom: "Relance devis septembre", canal: "Email", audience: "Devis envoyés non acceptés", destinataires: 27, date: "2026-09-15", statut: "Terminée", ouverture: 58, lecture: 46, creePar: "Salma Bennani", message: "Votre proposition HABTI reste disponible avec accompagnement personnalisé.", cta: "Valider mon devis" },
+];
+
+export const faqSeed: FAQItem[] = [
+  { id: "FAQ-1", question: "Peut-on modifier la date d'une excursion confirmée ?", categorie: "Réservations", reponse: "Oui, selon disponibilité. L'équipe vérifie le prestataire et propose le meilleur créneau alternatif.", statut: "Active", maj: "2026-09-12" },
+  { id: "FAQ-2", question: "Quels moyens de paiement sont acceptés ?", categorie: "Paiements", reponse: "Carte bancaire, espèces, virement bancaire, chèque et paiement en ligne selon le dossier.", statut: "Active", maj: "2026-09-10" },
+  { id: "FAQ-3", question: "Comment se passe une annulation ?", categorie: "Annulations", reponse: "Les conditions dépendent de la prestation, du délai et des engagements prestataires déjà confirmés.", statut: "Active", maj: "2026-09-08" },
+];
+
+export const knowledgeSeed: KnowledgeItem[] = [
+  { id: "KB-1", titre: "Conditions d'annulation excursions", categorie: "Conditions", type: "Document", statut: "Active", maj: "2026-09-11", contenu: "Règles de report, remboursement partiel et validation prestataire." },
+  { id: "KB-2", titre: "Procédure accueil VIP Marrakech", categorie: "Procédures internes", type: "Contenu manuel", statut: "Active", maj: "2026-09-14", contenu: "Brief chauffeur, panier d'accueil, contact riad et confirmation horaires." },
+  { id: "KB-3", titre: "Grille prix activités désert", categorie: "Prix", type: "Document", statut: "Active", maj: "2026-09-09", contenu: "Tarifs bivouac, 4x4, dromadaire, dîner spectacle et suppléments privés." },
 ];
 
 export const perfChart = [
