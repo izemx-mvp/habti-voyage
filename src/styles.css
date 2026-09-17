@@ -203,11 +203,10 @@
 .profile-chip b{font-size:11px}.profile-chip span{font-size:9px;color:var(--muted-foreground);display:block}
 .bell{position:relative}.bell-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:99px;background:var(--primary)}
 .notif-menu{width:320px}
-.habti-logo{display:flex;align-items:center;gap:10px}
-.habti-logo-mark{width:38px;height:38px;flex:none}
-.habti-logo-text{display:flex;flex-direction:column;line-height:1.1}
-.habti-logo-text strong{font-size:15px;letter-spacing:.18em}
-.habti-logo-text span{font-size:8px;letter-spacing:.3em;color:var(--primary)}
+.habti-logo{display:flex;align-items:center;min-width:0}
+.habti-logo-image{display:block;width:142px;height:auto;object-fit:contain;filter:drop-shadow(0 8px 18px color-mix(in oklab,var(--primary) 18%,transparent))}
+.habti-logo.is-symbol{width:42px;height:42px;overflow:hidden;justify-content:flex-start}
+.habti-logo.is-symbol .habti-logo-image{width:120px;max-width:none;transform:translateX(-3px)}
 .mobile-nav{padding:14px}
 .mobile-only{display:none}
 .module-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:14px}
