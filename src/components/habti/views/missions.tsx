@@ -74,7 +74,7 @@ export function MissionsView() {
             const progress = Math.round((done / (m.checklist.length || 1)) * 100);
             return (
               <Panel className="operation-card" key={m.id}>
-                <button className="operation-main" onClick={() => navigate({ to: "/operations/$id", params: { id: m.id } })}>
+                <button className="operation-main" onClick={() => navigate({ to: "/operations/$id", params: { id: m.id } })} onDoubleClick={() => navigate({ to: "/operations/$id", params: { id: m.id } })}>
                   <div className="mission-card-head"><b>{m.titre}</b><StatutBadge statut={m.statut} /></div>
                   <span>{m.client} · {m.activite}</span>
                   <span><MapPin />{m.lieu} · {dateFr(m.date)} à {m.heure}</span>
@@ -84,7 +84,7 @@ export function MissionsView() {
                 <div className="card-actions">
                   <Button size="sm" variant="outline" onClick={() => setEdition(m)}>Modifier</Button>
                   <Button size="sm" variant="outline" onClick={() => { updateMission(m.id, { statut: "En cours" }); notify("Opération démarrée."); }}>Démarrer</Button>
-                  <Button size="sm" onClick={() => navigate({ to: "/operations/$id", params: { id: m.id } })}>Ouvrir</Button>
+                  <Button size="sm" onClick={() => navigate({ to: "/operations/$id", params: { id: m.id } })}>Voir le détail</Button>
                 </div>
               </Panel>
             );
