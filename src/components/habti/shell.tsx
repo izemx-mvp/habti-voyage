@@ -114,7 +114,7 @@ export function HabtiShell({ path, children }: { path: string; children: ReactNo
 
       <div className="shell-main">
         <header className="topbar">
-          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" aria-expanded={mobile} onClick={(event) => { event.stopPropagation(); setMobile(true); }}><Menu /></Button>
+          <Button variant="ghost" size="icon" className="mobile-only" aria-label="Ouvrir le menu" aria-expanded={mobile} onPointerDown={(event) => { event.preventDefault(); event.stopPropagation(); setMobile(true); }}><Menu /></Button>
           <div>
             <h1>{meta.titre}</h1>
             <p>{meta.sous}</p>
